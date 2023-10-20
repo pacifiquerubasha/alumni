@@ -1,16 +1,22 @@
 import React from 'react';
 import { images } from '../utils/images';
+import { NavLink } from 'react-router-dom';
 
 function EventCard(props) {
 
+    const handleOpenRSVPopup = (e)=>{
+        e.stopPropagation();
+        console.log('RSVP');
+    }
+
     return (
-        <div className='card__repeated rounded-lg overflow-hidden'>
-            <div className='relative'>
+        <div className='card__repeated block rounded-lg overflow-hidden'>
+            <NavLink to="/events/event-id" className='relative'>
                 <img src={images.celebrate} alt="" />
                 <div className='card__organisor p-1 pt-2 absolute bottom-0 left-0 text-white w-full font-600 text-xl'>
                     Jordan Peterson
                 </div>
-            </div>
+            </NavLink>
             <div className='px-2 py-1'>
                 <div className='opacity-5'>Sunday, 12 April | 10:00 am</div>
                 <h4 className='text-xl'>Event Title</h4>
@@ -26,7 +32,7 @@ function EventCard(props) {
                         </div>
                         <span>1000+</span>
                     </div>
-                    <button className='main__btn border__btn font-400'>
+                    <button onClick={handleOpenRSVPopup} className='main__btn border__btn font-400'>
                         RSVP
                     </button>
                 

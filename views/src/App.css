@@ -160,7 +160,6 @@ section.cta::before{
   z-index: -1;
   left: -2rem;
   bottom: -2rem;
-  border: 1px solid red;
   height: 100%;
   width: 100%;
   border-radius: 15px;
@@ -172,6 +171,10 @@ section.cta::before{
 
 .card__repeated{
   background-color:#bf2c3330;
+}
+
+.card__repeated:hover{
+  color: black;
 }
 
 .card__icon{
@@ -205,7 +208,7 @@ footer{
 
 }
 
-main:has(>.events__banner){
+main.main__padding{
   padding-top: 12vh;
 }
 
@@ -273,4 +276,84 @@ main{
   left: 0;
   height: 100%; 
   overflow-y: auto;
+}
+
+.nav__links a.active{
+  color: var(--color-main) !important;
+  position: relative;
+  isolation: isolate;
+}
+
+.nav__links a.active::after{
+  content: "";
+  position: absolute;
+  border: 1px solid var(--color-main);
+  bottom: -1rem;
+  width: 150%;
+  left: -25%;
+}
+
+.details__hero{
+  height: 35vh;
+}
+
+.details__hero>img{
+  object-position: center;
+}
+
+.event__ticket{
+  top: 75%;
+  left: 0;
+  right: 0;
+}
+
+.qrcode__section,
+.organisor__details{
+  width: 25rem;
+}
+
+.ticket__left,
+.qrcode__section{
+  background-color: white;
+}
+
+.ticket__left{
+  border-radius: 10px 0 0 10px;
+}
+
+.qrcode__section{
+  border-radius: 0 10px 10px 0;
+}
+
+.separator{
+  border: 2px dashed rgb(195, 195, 195);
+  position: relative;
+}
+
+.separator::before{
+  content: "";
+  position: absolute;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 100%;
+  background-color: rgb(206, 206, 206);
+}
+
+.event__details{
+  padding-top: 25rem;
+  border: 1px solid red;
+  padding-inline: 20%;
+}
+
+.profile__rounded{
+  width: 4rem;
+  height: 4rem;
+}
+
+.organisor__details{
+  border: 1px solid rgba(128, 128, 128, 0.475);
+}
+
+.event__category{
+  /* background-color: #2c5abf5c; */
 }

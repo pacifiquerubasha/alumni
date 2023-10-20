@@ -10,7 +10,7 @@ function Header(props) {
         },
         {
             name: "My Events",
-            link: "/"
+            link: "/my-events"
         },
         {
             name: "Alumnis",
@@ -27,7 +27,7 @@ function Header(props) {
         <header className='flex z-total justify-between px-5 items-center py-2 fixed w-full bg-white'>
             <NavLink to="/" className='text-3xl font-700 logo__gradient'>ALUmnis</NavLink>
             <nav className='mx-auto flex flex-1 justify-between'>
-                <ul className='flex items-center gap-3 mx-auto'>
+                <ul className='flex items-center gap-3 mx-auto nav__links'>
                     {menuItems.map((item, i)=>(
                         <li key={i}>
                             <NavLink to={item.link}>{item.name}</NavLink>

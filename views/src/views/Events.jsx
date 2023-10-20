@@ -7,7 +7,7 @@ function Events(props) {
     return (
         <>
             <Header/>
-            <main>
+            <main className='main__padding'>
                 <section className="events__banner flex full-center">
                     <div className="events__banner__overlay flex flex-col items-center justify-center">
                         <h1 className='text-5xl font-700 text-white'>Events</h1>
