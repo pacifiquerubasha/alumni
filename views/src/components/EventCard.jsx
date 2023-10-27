@@ -1,36 +1,40 @@
 import React from 'react';
 import { images } from '../utils/images';
 import { NavLink } from 'react-router-dom';
+import { formatDate } from '../utils/utils';
+import { API_URL } from '../services/apis';
 
-function EventCard(props) {
+function EventCard({data}) {
 
     const handleOpenRSVPopup = (e)=>{
         e.stopPropagation();
-        console.log('RSVP');
+        console.log('RSVP', data);
     }
 
     return (
         <div className='card__repeated block rounded-lg overflow-hidden'>
             <NavLink to="/events/event-id" className='relative'>
-                <img src={images.celebrate} alt="" />
+
+                <img src={`${API_URL}/images/${data?.image}` || images.celebrate} alt="" className='cover' />
+                
                 <div className='card__organisor p-1 pt-2 absolute bottom-0 left-0 text-white w-full font-600 text-xl'>
-                    Jordan Peterson
+                    {data?.organizer?.name}
                 </div>
             </NavLink>
             <div className='px-2 py-1'>
-                <div className='opacity-5'>Sunday, 12 April | 10:00 am</div>
-                <h4 className='text-xl'>Event Title</h4>
-                <p className='text-md mb-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, quidem.</p>
+                <div className='opacity-5'>{formatDate(data?.date)}</div>
+                <h4 className='text-xl'>{data?.title}</h4>
+                <p className='text-md mb-2'>{data?.organizer?.dabout}</p>
                 <div className='flex gap-1 items-center opacity-5'>
                     <i className='fas fa-map-marker'></i>
-                    <span>Location</span>
+                    <span>{data?.location}</span>
                 </div>   
                 <div className='flex justify-between mt-2'>
                     <div className='flex items-center gap-1'>
                         <div className='card__icon'>
                             <i className='fas fa-group'></i>
                         </div>
-                        <span>1000+</span>
+                        <span>{data?.totalRSVPS}</span>
                     </div>
                     <button onClick={handleOpenRSVPopup} className='main__btn border__btn font-400'>
                         RSVP

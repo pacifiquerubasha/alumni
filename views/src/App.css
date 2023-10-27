@@ -11,9 +11,13 @@
 .color-faded{color: var(--color-faded);}
 .color-darkblue{color: var(--color-darkblue);}
 
-.bg-main, footer{background-color: var(--color-main);}
+.bg-main, footer{background-color: var(--color-main) !important; }
 .bg-whiteorange{background-color: var(--color-whiteorange);}
 .bg-faded{background-color: var(--color-faded);}
+.bg-darkblue{
+  background-color: var(--color-darkblue);
+  color: var(--color-whiteorange);
+}
 
 body{
   font-size: 1rem;
@@ -50,6 +54,11 @@ body{
   position: relative;
   isolation: isolate;
   overflow: hidden;
+}
+
+.btn__gray{
+  border: 2px solid gray;
+  color: gray;
 }
 
 .main__btn::before{
@@ -173,6 +182,10 @@ section.cta::before{
   background-color:#bf2c3330;
 }
 
+.all__events .card__repeated{
+  background-color: white;
+}
+
 .card__repeated:hover{
   color: black;
 }
@@ -257,13 +270,18 @@ main{
 .sidebar__upcoming--events>span{color: var(--color-main) !important; margin-bottom: .25rem;}
 .sidebar__upcoming--events>div>span{font-size: .75rem;}
 
-.events__core .filters button{
-  border: 1px solid var(--color-main);
+
+.events__core .filters button,
+.alumnis .filters button {
+  border: 1px solid gray;
+  color: gray;
 }
 
-.events__core .filters button.active{
+.events__core .filters button.active,
+.alumnis .filters button.active{
   background-color: var(--color-main);
   color: var(--color-whiteorange);
+  border: 1px solid var(--color-main);
 }
 
 .events__container>div{
@@ -301,7 +319,8 @@ main{
   object-position: center;
 }
 
-.event__ticket{
+.event__ticket,
+.contact__content{
   top: 75%;
   left: 0;
   right: 0;
@@ -354,6 +373,424 @@ main{
   border: 1px solid rgba(128, 128, 128, 0.475);
 }
 
-.event__category{
-  /* background-color: #2c5abf5c; */
+.contact__content{
+  top: 30%;
+}
+
+.contact__form input,
+.contact__form textarea{
+  padding: .75rem;
+  width: 75%;
+  font-size: 1.25rem;
+  font-weight: 400 !important;
+  margin: 1.5rem 0;
+}
+
+.signup__form input,
+.signup__form textarea{
+  margin: 1rem 0;
+}
+
+
+.auth__form input,
+.auth__form textarea{
+  width: 100%;
+}
+
+.auth__form{
+  width: 30rem;
+  max-width: 100%;
+}
+
+
+.custom__modal,
+.overlay{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #0101016c;
+  animation: appear ease-in .2s;
+  z-index: 999;
+}
+
+@keyframes appear{
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+
+
+.modal__content{
+  animation: slideDown ease-in .3s;
+
+}
+
+@keyframes slideDown{
+  from{
+    opacity: 0.5;
+    transform: translateY(-50%);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close__modal{
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: gray;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+
+.form__group{position: relative;}
+.form__group label{
+  transform: translate(1rem, 2.25rem);
+  color: gray;
+  padding: 0 5px;
+  transition: all ease-in-out .3s;
+  position: absolute;
+}
+
+.signup__form .form__group label{
+  transform: translate(1rem, 1.75rem);
+}
+
+.form__group:has(input:focus) label,
+.form__group:has(textarea:focus) label,
+.form__group:has(input:not(:placeholder-shown)) label,
+.form__group:has(textarea:not(:placeholder-shown)) label{
+  transform: translate(-0.25rem, -0.25rem);
+  background-color: var(--color-polar);
+  width: auto;
+}
+
+.signup__form .form__group:has(input:focus) label,
+.signup__form .form__group:has(textarea:focus) label,
+.signup__form .form__group:has(input:not(:placeholder-shown)) label,
+.signup__form .form__group:has(textarea:not(:placeholder-shown)) label{
+  transform: translate(-0.25rem, -0.5rem);
+}
+
+.form__group input::placeholder,
+.form__group textarea::placeholder{
+  opacity: 0;
+}
+
+select{
+  border: 1.2px solid rgb(194, 194, 194)
+}
+
+.contact__information{
+  transform: translate(-30%, 50%);
+}
+
+.alumni__card{
+  border: 1px solid rgba(128, 128, 128, 0.305);
+  transition: all ease-in-out .3s;
+}
+
+.alumni__card:hover{
+  background-color: rgba(2,3,129, .25);
+  color: var(--color-darkblue);
+}
+
+.alumni__card img{
+  border: 2px solid rgba(128, 128, 128, 0.305);
+}
+
+.alumni__card--more{
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  cursor: pointer;
+  transition: all ease-in-out .3s;
+}
+
+.alumni__card--more:hover{
+  color: var(--color-main);
+  opacity: 1;
+}
+
+.stats__card--icon{
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(2,3,129, .25);
+  color: var(--color-darkblue);
+}
+
+
+.react-calendar{
+  width: 100% !important;
+  border: none !important;
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr{
+  text-decoration: none !important;
+}
+
+.react-calendar__tile--now{
+  background-color: #d1e6f6 !important;
+}
+
+.react-calendar__tile--active{
+  background-color: #55c360 !important;
+  border-radius:5px;
+}
+
+
+button.react-calendar__navigation__label {
+  font-size: 1.15rem;
+  text-transform: capitalize;
+  color: var(--color-green);
+}
+
+.react-calendar__navigation button:hover,
+.react-calendar button:hover{
+  background-color: #d1e6f6 !important;
+}
+
+.my__events--stat{
+  background-color: var(--color-faded);
+  color: var(--color-main);
+  border-radius: 5px;
+  padding: 1rem;
+  position: relative;
+  --after-color: var(--color-main);
+}
+
+.ev__stat--1{
+  background-color: #C9D4EF;
+  color: var(--color-darkblue);
+  --after-color: var(--color-darkblue);
+}
+
+.ev__stat--2{
+  background-color: rgba(128, 0, 128, 0.236);
+  color: purple;
+  --after-color: purple;
+}
+
+.my__events--stat::after{
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 3px;
+  background-color: var(--after-color);
+  bottom: 0;
+}
+
+.my__events-repeated{
+  border: 1px solid rgba(128, 128, 128, 0.385);
+}
+
+.my__upcoming--event,
+.badge__success{
+  color: green;
+  background-color: #55c3602e;
+}
+
+.my__past--event,
+.badge__error{
+  color: var(--color-main) !important;
+  background-color:#bf2c3337
+}
+
+.card__repeated img{
+  height: 15rem;
+}
+
+.auth__page::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 75%;
+  background-color: var(--color-whiteorange);
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.auth__page::after{
+  content: "";
+  position: absolute;
+  left: 75%;
+  top: 0;
+  width: 25%;
+  background-color: var(--color-faded);
+  height: 100%;
+  z-index: -1;
+  opacity: 0.35;
+}
+
+.show__pass{
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.submit__loader {
+  width: 24px;
+  height: 24px;
+  border: 5px dotted #FFF;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+
+button .loading{
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.auth__form .message{
+  padding: .5rem;
+}
+
+
+.border-main{
+  border: 2px solid var(--color-main);
+}
+
+
+.skeleton__loader {
+  width: 100%;
+  height: 215px;
+  display: block;
+  margin: auto;
+  position: relative;
+  background: #FFF;
+  box-sizing: border-box;
+}
+
+.skeleton__loader::after {
+  content: '';
+  width: calc(100% - 30px);
+  height: calc(100% - 15px);
+  top: 15px;
+  left: 15px;
+  position: absolute;
+  background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5) 50%, transparent 100%),
+   linear-gradient(#DDD 100px, transparent 0),
+   linear-gradient(#DDD 16px, transparent 0),
+   linear-gradient(#DDD 50px, transparent 0);
+  background-repeat: no-repeat;
+  background-size: 75px 175px, 100% 100px, 100% 16px, 100% 30px;
+  background-position: -185px 0, center 0, center 115px, center 142px;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite;
+}
+
+@keyframes animloader {
+  to {
+    background-position: 185px 0, center 0, center 115px, center 142px;
+  }
+}
+
+
+.select__input{
+  border: 1.2px solid rgb(194, 194, 194);
+}
+
+.select__list{
+  top: 115%;
+  left: 0;
+  width: 100%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  z-index: 10;
+  max-height: 50vh;
+  overflow-y: auto;
+  animation: appearFromBottom .3s ease-in-out;
+}
+
+@keyframes appearFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.select__list span{
+  color: gray;
+  padding: .25rem .5rem;
+  border-radius: 5px;
+}
+
+.select__list span:hover{
+  background-color:#2baffc29;
+  cursor: pointer;
+}
+
+.select__label{
+  left: 0.25rem;
+  top: -1.5rem;
+  color: gray;
+  background-color: var(--color-polar);
+  animation: appearFromBottom .3s ease-in-out;
+
+}
+
+.spin__loader {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  background-image:
+    linear-gradient(#FFF 16px, transparent 0) ,
+    linear-gradient(var(--color-main) 16px, transparent 0) ,
+    linear-gradient(var(--color-main) 16px, transparent 0) ,
+    linear-gradient(#FFF 16px, transparent 0);
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-position: left top , left bottom , right top , right bottom;
+  animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+  0% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(0deg)
+  }
+  50% {
+    width: 30px;
+    height: 30px;
+    transform: rotate(180deg)
+  }
+  100% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(360deg)
+  }
 }

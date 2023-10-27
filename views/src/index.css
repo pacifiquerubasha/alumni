@@ -838,6 +838,10 @@ ul{
     margin-bottom: 5rem;
 }
 
+.my-auto{
+    margin: auto 0;
+}
+
 /*Left Margin*/
 
 .ml-1{

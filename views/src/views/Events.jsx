@@ -1,13 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import EventCard from '../components/EventCard';
+import { getEvents } from '../services/apis';
+import { SkeletonLoader } from '../components/Loaders';
 
 function Events(props) {
+
+    const [allEvents, setAllEvents] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const [dates, setDates] = useState([]);
+    const [locations, setLocations] = useState([]);
+
+    const getUniqueDates = (events)=>{
+        const dates = events.map(event=>new Date(event.date).toLocaleDateString());
+        const uniqueDates = [...new Set(dates)];
+        setDates(uniqueDates);
+    }
+
+    const getUniqueLocations = (events)=>{
+        const locations = events.map(event=>event.location);
+        const uniqueLocations = [...new Set(locations)];
+        setLocations(uniqueLocations);
+    }
+
+    useEffect(()=>{
+        const fetchEvents = async()=>{
+            setLoading(true)
+            const events = await getEvents();
+            setAllEvents(events?.data?.events);
+            setEvents(events?.data?.events);
+            setLoading(false)
+            
+            getUniqueDates(events?.data?.events);
+            getUniqueLocations(events?.data?.events);
+
+        }
+
+        fetchEvents();
+
+    }, [])
+
     return (
         <>
             <Header/>
-            <main className='main__padding'>
+            <main className='main__padding bg-whiteorange all__events'>
                 <section className="events__banner flex full-center">
                     <div className="events__banner__overlay flex flex-col items-center justify-center">
                         <h1 className='text-5xl font-700 text-white'>Events</h1>
@@ -19,19 +58,27 @@ function Events(props) {
                         <div className='mb-2'>
                             <h5>DATES</h5>
                             <div className='side__bar--list'>
-                                <span>05/12/23</span>
-                                <span>12/12/23</span>
-                                <span>13/12/23</span>
-                                <span>14/12/23</span>                                
+                                {loading ?
+                                <div>LOADING...</div>
+                                :
+                                <>
+                                {dates.map((date, i)=><span>{date}</span>)}
+                                
+                                </>
+                                }                              
                             </div>
                         </div>
                         <div>
                             <h5>LOCATIONS</h5>
                             <div className='side__bar--list'>
-                                <span>Online</span>
-                                <span>Kigali</span>
-                                <span>Nairobi</span>
-                                <span>Pamplemousses</span>
+                            {loading ?
+                                <div>LOADING...</div>
+                                :
+                                <>
+                                {locations.map((location, i)=><span>{location}</span>)}
+                                
+                                </>
+                                }    
                             </div>
                         </div>
                         
@@ -43,7 +90,7 @@ function Events(props) {
                         </form>
                         <div className='mt-2 flex gap-2 filters'>
                             <button className='active'>
-                                <span>All</span>
+                                <span>ALL</span>
                             </button>
                             <button>
                                 <span>Professional Development</span>
@@ -56,12 +103,33 @@ function Events(props) {
                             </button>
                         </div>
 
+
                         <div className='flex justify-between events__container flex-wrap mt-5'>
-                            {new Array(10).fill(0).map((_, i)=>(
-                                <div key={i} className=' mb-5'>
-                                    <EventCard/>
-                                </div>
-                            ))}
+                            
+                            {loading ?
+
+                                <>
+                                    {new Array(4).fill(0).map((_, i)=>(
+                                        <div key={i} className='mb-5'>
+                                            <SkeletonLoader/>                                    
+                                        </div> 
+                                    ))}
+                                </>
+                                :
+
+                                <>
+                                    {events.map((event, i)=>(
+                                        <div key={i} className=' mb-5'>
+                                            <EventCard data={event}/>
+                                        </div>
+                                    ))}
+                                
+                                </>
+                            
+                            }
+                            
+                        
+                            
                         </div>
                         
                     </div>
@@ -85,7 +153,7 @@ function Events(props) {
                         <div>
                             <h5>MY UPCOMING EVENTS</h5>
                             <div className='side__bar--list'>
-                                <div className='sidebar__upcoming--events'>
+                                <div className='sidebar__upcoming--events bg-white'>
                                     <span className='font-600'>Event 1</span>
                                     <div className='flex gap-1 opacity-5'>
                                         <span>05/12/23</span>

@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const { userRouter } = require('./routes/user-routes');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
 const { authMiddleware } = require('./middlewares/authMiddleware');
 const { eventsRouter } = require('./routes/event-routes');
 
@@ -13,6 +15,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(authMiddleware);
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:5173',
+}));
+
+app.use('/images', express.static('uploads'));
 
 app.use("/api/users", userRouter);
 app.use("/api/events", eventsRouter);

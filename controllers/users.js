@@ -19,6 +19,16 @@ const signup = async(req, res, next)=>{
         nationality,
         yearOfGraduation,
     } = req.body;
+
+    //Check if required fields are provided
+    if(!username || !email || !password){
+        return res.status(400).json({
+            message: "fail",
+            data: {
+                message: "Please provide all required information"
+            }
+        })
+    }
     
 
     try{
@@ -158,6 +168,29 @@ const verifyEmail = async(req, res, next)=>{
         }
     })
 
+}
+
+const deleteUser = async(req, res)=>{
+    const {userId} = req.body;
+
+    try {
+        await User.findByIdAndDelete(userId);
+        res.status(200).json({
+            message: "success",
+            data: {
+                message: "User deleted successfully"
+            }
+        })
+        
+    } catch (error) {
+        res.status(400).json({
+            message: "fail",
+            data: {
+                message: error.message
+            }
+        })
+        
+    }
 }
 
 const getAllUsers = async(req, res, next)=>{
@@ -305,18 +338,15 @@ const login = async(req, res, next)=>{
         
         res.cookie('jwt', token, {
             httpOnly: true, 
-            maxAge: 12 * 60 * 60 * 1000, 
-            secure: process.env.NODE_ENV === 'production' ? true : false
           });
-
+        
         res.status(200).json({
             message: "success",
             data: {
-                token
+                token,
+                user
             }
         })
-
-
 
     }
     catch(err){
@@ -339,6 +369,53 @@ const logout = async(req, res, next)=>{
     })
 }
 
+const getCurrentUser = async(req, res)=>{
+
+    const token = req.cookies.jwt;
+
+    if(!token){
+        return res.status(400).json({
+            message: "fail",
+            data: {
+                message: "Please login"
+            }
+        })
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const {id} = decoded;
+
+    try{
+        let user = await User.findById(id)
+        .select('-password -emailVerificationCode -emailVerificationCodeExpiry');
+        if(!user){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "User not found"
+                }
+            })
+        }
+
+        res.status(200).json({
+            message: "success",
+            data: {
+                user
+            }
+        })
+
+    }catch(err){
+        res.status(400).json({
+            message: "fail",
+            data: {
+                message: err.message
+            }
+        })
+    }
+        
+    
+}
+
 //Export
 module.exports = {
     signup,
@@ -346,5 +423,7 @@ module.exports = {
     getAllUsers,
     resendVerificationCode,
     login,
-    logout
+    logout,
+    deleteUser,
+    getCurrentUser
 }

@@ -1,7 +1,10 @@
 const express = require("express");
+const RSVP = require("../models/RSVP");
 const Event = require("../models/Event");
+const User = require("../models/User");
 
 const createEvent = async(req, res)=>{
+
     try {
 
         const {
@@ -13,9 +16,14 @@ const createEvent = async(req, res)=>{
           sponsors,
           date,
           location,
-          image
+          tags,
+          attendees,
+          capacity,
+          createdBy
         } = req.body;
-    
+
+        const imagePath = req?.file?.filename;
+        
 
         const newEvent = await Event.create({
           title,
@@ -26,9 +34,14 @@ const createEvent = async(req, res)=>{
           sponsors,
           date,
           location,
-          image
+          image : imagePath,
+          tags,
+          attendees,
+          capacity,
+          createdBy
         });
     
+
         return res.status(201).json({
             message: 'success',
             data: {
@@ -138,6 +151,28 @@ const getAllEvents = async(req, res)=>{
       }
 }
 
+const getMyEvents = async(req, res)=>{
+    try {
+        const {id} = req.params;
+        const events = await Event.find({createdBy: id});
+    
+        return res.status(200).json({
+            message: 'success',
+            data: {
+                events,
+            },
+        });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'fail',
+            data: {
+                message: error.message,
+            },
+        });
+      }
+}
+
 const getEvent = async(req, res)=>{
     try {
         const {id} = req.params;
@@ -159,7 +194,6 @@ const getEvent = async(req, res)=>{
         });
       }
 }
-
 
 
 const getEventsBySearch = async(req, res)=> {
@@ -215,6 +249,55 @@ const getUpcomingEvents = async(req, res)=>{
       }
 }
 
+const registerForEvent = async(req, res)=>{
+    const {eventId, userId} = req.body;
+
+    let eventRegistration = null;
+
+    try {
+        eventRegistration = await RSVP.findOne({eventId, userId});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'fail',
+            data: {
+            message: error.message,
+            },
+        });
+    }
+    if(!eventRegistration){
+        try {
+            eventRegistration = await RSVP.create({eventId, userId});
+            const event = await Event.findById(eventId);
+            const user = await User.findById(userId);
+
+            event.attendees.push(`${user.firstName} ${user.lastName}`);
+            event.totalRSVPS++;
+            await event.save();
+
+        } catch (error) { 
+            console.error(error);
+            res.status(500).json({
+                message: 'fail',
+                data: {
+                message: error.message,
+                },
+            });
+        }
+    }
+
+    else{
+        res.status(400).json({
+            message: 'fail',
+            data: {
+            message: "You have already registered for this event",
+            },
+        });
+    }
+
+
+
+}
 
 module.exports = {
     createEvent,
@@ -223,6 +306,8 @@ module.exports = {
     getAllEvents,
     getEvent,
     getEventsBySearch,
-    getUpcomingEvents
+    getUpcomingEvents,
+    registerForEvent,
+    getMyEvents
 
 }
