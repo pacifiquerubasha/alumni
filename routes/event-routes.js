@@ -7,7 +7,7 @@ const eventsRouter = express.Router();
 eventsRouter.post("/", upload.single('image'), createEvent)
 eventsRouter.get("/search", getEventsBySearch)
 eventsRouter.get("/user/:id", getMyEvents)
-eventsRouter.put("/:id", updateEvent)
+eventsRouter.put("/:id", upload.single('image'), updateEvent)
 eventsRouter.delete("/:id", deleteEvent)
 eventsRouter.get("/", getAllEvents)
 eventsRouter.get("/upcoming", getUpcomingEvents)

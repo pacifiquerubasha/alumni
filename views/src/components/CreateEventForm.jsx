@@ -1,9 +1,14 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Select from './CustomSelect';
-import { createEvent } from '../services/apis';
+import { createEvent, updateEvent } from '../services/apis';
 import { AppContext } from '../AppContext';
+import { useParams } from 'react-router-dom';
+import EventDetails from '../views/EventDetails';
+import { SubmitLoader } from './Loaders';
 
-function CreateEventForm({eventFormData, setEventFormData}) {
+function CreateEventForm({eventFormData, setEventFormData, isEdit}) {
+
+    const {id} = useParams();
 
     const {user} = useContext(AppContext);
 
@@ -37,26 +42,57 @@ function CreateEventForm({eventFormData, setEventFormData}) {
 
     const handleSubmit = async(e)=>{
         e.preventDefault();
-        const data = {
-                    ...eventFormData, 
-                    date: `${eventFormData.date} ${eventFormData.time}`
-                }
-    
-        console.log(data)
+  
         try {
             setLoading(true);
             const data = {
                 ...eventFormData, 
-                date: `${eventFormData.date} ${eventFormData.time}`,
                 createdBy: user._id
             }
 
             const response = await createEvent(data);
-            if(response.data.event)
+            if(response.data.event){
                 setMessage({
                     type: 'success',
                     text: 'Event registration successfull'
                 })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+
+            
+        } catch (error) {
+            setMessage({
+                type: 'error',
+                text: error?.response?.data?.data?.message
+            })            
+        }
+        finally{            
+            setLoading(false);
+        }
+    }
+
+    const handleUpdate = async(e)=>{
+        e.preventDefault();
+  
+        try {
+            setLoading(true);
+            const data = {
+                ...eventFormData, 
+                createdBy: user._id,
+            }
+
+            const response = await updateEvent(data, id);
+            if(response.data.event){
+                setMessage({
+                    type: 'success',
+                    text: 'Event update successfull'
+                })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
 
             
         } catch (error) {
@@ -73,8 +109,8 @@ function CreateEventForm({eventFormData, setEventFormData}) {
 
 
     return (
-        <form onSubmit={handleSubmit} className='contact__form overflow-y-auto px-1 auth__form signup__form'>
-            <h3 className='text-2xl font-500 color-darkblue'>Create Event</h3>
+        <form onSubmit={ !isEdit ? handleSubmit : handleUpdate} className='contact__form overflow-y-auto px-1 auth__form signup__form'>
+            <h3 className='text-2xl font-500 color-darkblue'>{isEdit ? "Edit" : "Create"} Event</h3>
             <p className='opacity-5 mb-2'>Provide the necessary information about the event</p>
             {message.text && <div className={`text-center mb-1 rounded-sm message ${message.type === 'error' ? 'badge__error' : 'badge__success'}`}>{message.text}</div>}
             {currentStep === 1 ?
@@ -114,7 +150,7 @@ function CreateEventForm({eventFormData, setEventFormData}) {
                 </div>
                 <div className="form__group mt-1">
                     <label htmlFor="date">Event Date</label>
-                    <input type="date" id="date" name="date" value={eventFormData.date} placeholder="Event date" onChange={handleChange} required/>
+                    <input type="date" id="date" name="date" value={eventFormData?.date?.split("T")[0]} placeholder="Event date" onChange={handleChange} required/>
                 </div>
                 <div className="form__group mt-1">
                     <label htmlFor="time">Event Time</label>
@@ -161,11 +197,15 @@ function CreateEventForm({eventFormData, setEventFormData}) {
                 
 
                 <div className='flex justify-between mt-2'>
-                    <button onClick={()=>setCurrentStep(1)} type='button' className="main__btn border__btn btn__gray">
+                    <button onClick={()=>setCurrentStep(2)} type='button' className="main__btn border__btn btn__gray">
                         PREV
                     </button>
                     <button onClick={()=>setCurrentStep(3)} type='submit' className="main__btn">
-                        SUBMIT
+                        {loading ?
+                            <SubmitLoader/>
+                            :
+                            "SUBMIT"
+                        }
                     </button>
                 </div>          
             </>

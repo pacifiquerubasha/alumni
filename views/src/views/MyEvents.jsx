@@ -7,10 +7,12 @@ import CreateEventForm from '../components/CreateEventForm';
 import { getMyEvents } from '../services/apis';
 import { AppContext } from '../AppContext';
 import { formatDate } from '../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 function MyEvents(props) {
 
     const {user} = useContext(AppContext);
+    const navigate = useNavigate();
 
     const [calendarDate, setCalendarDate] = useState(new Date());
     const [openCreateModal, setCreateModal] = useState(false);
@@ -74,7 +76,7 @@ function MyEvents(props) {
                         
                         <div className='mt-5 flex flex-wrap gap-2'>
                             {myEvents.map((event, i)=>(
-                                <div className='w-3/4 border p-1 rounded-sm my__events-repeated'>
+                                <div key={event._id} onClick={()=>navigate(`/events/${event._id}`)} className='w-3/4 cursor-pointer border p-1 rounded-sm my__events-repeated'>
                                     <h5 className='text-xl color-darkblue'>{event.title}</h5>
                                     <p className='opacity-7'>
                                         {event.description}

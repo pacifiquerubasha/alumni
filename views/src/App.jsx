@@ -15,6 +15,7 @@ import MyEvents from './views/MyEvents';
 import Auth from './views/Auth';
 import { getCurrentUser } from './services/apis';
 import MainApp from './components/MainApp';
+import Chats from './views/Chats';
 
 function App() {
 
@@ -77,6 +78,7 @@ function App() {
                     <Route path=":id" element={<EventDetails/> }/>
                   </Route>
 
+                  <Route path="chats" element={<Chats/>}/>
                   <Route path="contact" element={<Contact/>}/>
                   <Route path="alumnis" element={<Alumnis/>}/>
                   <Route path="my-events" element={<MyEvents/>}/>

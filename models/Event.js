@@ -7,7 +7,7 @@ const eventSchema = new mongoose.Schema({
   },
   eventType: {
     type: String,
-    enum: ['Professional Development', 'Networking', 'Campus Events'],
+    enum: ['Professional Development', 'Networking', 'Training & Workshops'],
     required: true,
   },
   description: {
@@ -24,6 +24,10 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  time: {
+    type: String,
+    required: true,
+  },
   location: {
     type: String,
     required: true,
@@ -32,7 +36,17 @@ const eventSchema = new mongoose.Schema({
     type: String, 
   },
   tags: [String],
-  attendees: [String],
+  attendees: [{
+    name:{
+      type: String,
+      required: true,
+    },
+    _id:{
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+    }
+    
+  }],
   capacity: {
     type: Number,
     required: true,

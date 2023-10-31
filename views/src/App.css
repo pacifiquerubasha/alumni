@@ -360,7 +360,6 @@ main{
 
 .event__details{
   padding-top: 25rem;
-  border: 1px solid red;
   padding-inline: 20%;
 }
 
@@ -381,8 +380,8 @@ main{
 .contact__form textarea{
   padding: .75rem;
   width: 75%;
-  font-size: 1.25rem;
-  font-weight: 400 !important;
+  font-size: 1rem;
+  /* font-weight: 400 !important; */
   margin: 1.5rem 0;
 }
 
@@ -793,4 +792,100 @@ button .loading{
     height: 64px;
     transform: rotate(360deg)
   }
+}
+
+.border-gray{
+  border: 1px solid rgba(128, 128, 128, 0.466);
+}
+
+.chat__profile{
+  width: 3rem;
+  height: 3rem;
+}
+
+.shrink-0{
+  flex-shrink: 0;
+}
+
+.unread__tag{
+  background-color: var(--color-main);
+  color: var(--color-whiteorange);
+  border-radius: 100%;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: .75rem;
+}
+
+.chat__repeated{
+  padding: .5rem;
+}
+
+.chat__repeated:hover{
+  background-color: var(--color-whiteorange);
+}
+
+.chat__page{
+  max-height: 100vh;
+}
+
+
+
+.chat__header--profile{
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 2px solid var(--color-darkblue);
+}
+
+.chat__message--profile{
+  width: 2rem;
+  height: 2rem;
+}
+
+.message__received .message__body{
+  background-color: var(--color-whiteorange);
+  border-radius: 10px 10px 10px 0;
+}
+
+.message__received{
+  max-width: 60%;
+}
+
+.message__sent .message__body{
+  background-color: var(--color-darkblue);
+  color: white;
+  border-radius: 10px 10px 0 10px;
+}
+
+.chat__repeated.active{
+  border-left: 3px solid var(--color-main);
+  background-color: var(--color-whiteorange);
+}
+
+.chat__form{
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  isolation: isolate;
+}
+
+.chat__header{
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+
+
+.blurry-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px); 
+  background-color: rgba(255, 255, 255, 0.7); 
+  z-index: -1;
 }

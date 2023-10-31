@@ -5,7 +5,7 @@ function Footer(props) {
         <footer className='flex flex-col items-center pt-5 pb-3'>
             <div className="w-3/4 footer__top flex pb-2 flex justify-around">
                 <div>
-                    <a className='text-3xl font-700 logo__gradient'>ALUmnis</a>
+                    <a className='text-3xl font-700 logo__gradient'>ALUmineers</a>
                     <p>Our Moto Here</p>
                 </div>
                 <div>

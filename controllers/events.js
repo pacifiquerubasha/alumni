@@ -15,6 +15,7 @@ const createEvent = async(req, res)=>{
           speakers,
           sponsors,
           date,
+          time,
           location,
           tags,
           attendees,
@@ -33,6 +34,7 @@ const createEvent = async(req, res)=>{
           speakers,
           sponsors,
           date,
+          time,
           location,
           image : imagePath,
           tags,
@@ -63,16 +65,22 @@ const updateEvent = async(req, res)=>{
     try {
         const {id} = req.params;
         const {
-          title,
-          eventType,
-          description,
-          organizer,
-          speakers,
-          sponsors,
-          date,
-          location,
-          image
-        } = req.body;
+            title,
+            eventType,
+            description,
+            organizer,
+            speakers,
+            sponsors,
+            date,
+            time,
+            location,
+            tags,
+            attendees,
+            capacity,
+            createdBy
+          } = req.body;
+
+        const imagePath = req?.file?.filename;
     
         const event = await Event.findOneAndUpdate(
           { _id: id },
@@ -84,8 +92,13 @@ const updateEvent = async(req, res)=>{
             speakers,
             sponsors,
             date,
+            time,
             location,
-            image
+            tags,
+            attendees,
+            capacity,
+            createdBy,
+            image: imagePath,
           },
           { new: true }
         );
@@ -271,9 +284,20 @@ const registerForEvent = async(req, res)=>{
             const event = await Event.findById(eventId);
             const user = await User.findById(userId);
 
-            event.attendees.push(`${user.firstName} ${user.lastName}`);
+            event.attendees.push({
+                name : `${user.firstName} ${user.lastName}`,
+                _id: user._id
+            });
+
             event.totalRSVPS++;
             await event.save();
+            
+            return res.status(201).json({
+                message: 'success',
+                data: {
+                    eventRegistration,
+                },
+            });
 
         } catch (error) { 
             console.error(error);
