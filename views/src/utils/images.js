@@ -9,6 +9,8 @@ import morning from  "../assets/images/morning.jpg"
 
 import qrcode from  "../assets/images/qrcode.webp"
 import user from  "../assets/images/user.jpg"
+import banner from  "../assets/images/banner.jpg"
+import user2 from  "../assets/images/user2.jpg"
 
 export const images = {
     hero,
@@ -19,5 +21,7 @@ export const images = {
     coffee,
     morning,
     qrcode,
-    user
+    user,
+    banner,
+    user2
 }

@@ -16,6 +16,7 @@ import Auth from './views/Auth';
 import { getCurrentUser } from './services/apis';
 import MainApp from './components/MainApp';
 import Chats from './views/Chats';
+import Profile from './views/Profile';
 
 function App() {
 
@@ -82,6 +83,7 @@ function App() {
                   <Route path="contact" element={<Contact/>}/>
                   <Route path="alumnis" element={<Alumnis/>}/>
                   <Route path="my-events" element={<MyEvents/>}/>
+                  <Route path="profile" element={<Profile/>}/>
                 </Route>
 
             </Routes>

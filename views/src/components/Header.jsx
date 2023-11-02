@@ -67,9 +67,9 @@ function Header(props) {
                     ))}
                 </ul>
                 {user ?
-                    <div>
+                    <NavLink to="/profile">
                         <img src={images.user} alt="" className='profile__rounded border-main shadow-4 rounded-full cover' />
-                    </div>
+                    </NavLink>
 
                     :
                     <NavLink to="/login" className='main__btn' href="">LOGIN</NavLink>
