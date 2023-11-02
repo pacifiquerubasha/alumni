@@ -11,6 +11,9 @@ import qrcode from  "../assets/images/qrcode.webp"
 import user from  "../assets/images/user.jpg"
 import banner from  "../assets/images/banner.jpg"
 import user2 from  "../assets/images/user2.jpg"
+import startChat from  "../assets/vectors/startChat.svg"
+import chatShare from  "../assets/vectors/chatShare.svg"
+import connect from  "../assets/vectors/connect.svg"
 
 export const images = {
     hero,
@@ -23,5 +26,8 @@ export const images = {
     qrcode,
     user,
     banner,
-    user2
+    user2,
+    startChat,
+    chatShare,
+    connect
 }

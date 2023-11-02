@@ -953,3 +953,6 @@ button .loading{
   bottom: 0;
 }
 
+.closed__chats--img{
+  width: 20rem;
+}
