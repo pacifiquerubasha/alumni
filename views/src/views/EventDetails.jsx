@@ -134,7 +134,7 @@ function EventDetails(props) {
                                         <span className='text'>{eventDetails.location}</span>
                                     </div>
                                     <div className='flex mt-4 justify-between'>
-                                        {eventDetails?.attendees?.includes(user?._id) ?
+                                        {!eventDetails?.attendees?.some((attendee)=>attendee._id === user?._id) ?
                                         <button onClick={registerEvent} className='main__btn'>{registering ? "..." : "RSVP"}</button>
                                         :
                                         <span className='text-green italic'>You have already registered</span>

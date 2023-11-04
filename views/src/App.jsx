@@ -13,10 +13,11 @@ import Alumnis from './views/Alumnis';
 import 'react-calendar/dist/Calendar.css';
 import MyEvents from './views/MyEvents';
 import Auth from './views/Auth';
-import { getCurrentUser } from './services/apis';
+import { API_URL, getCurrentUser } from './services/apis';
 import MainApp from './components/MainApp';
 import Chats from './views/Chats';
 import Profile from './views/Profile';
+
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
     user,
     setUser,
     loadingUser,
-    setLoadingUser
+    setLoadingUser,
   }
 
   const Loading = ()=>(

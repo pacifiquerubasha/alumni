@@ -1,9 +1,44 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { images } from '../utils/images';
+import { AppContext } from '../AppContext';
+
+import io from "socket.io-client"
+import { API_URL, getUsers } from '../services/apis';
+import Modal from '../components/Modal';
+
+
+const socket = io.connect(API_URL);
 
 function Chats(props) {
+    const {user} = useContext(AppContext);
+
+    const [users, setUsers] = useState([]);
+    const [loadingUsers, setLoadingUsers] = useState(false);
+    const [modalOpened, setModalOpened] = useState(true);
+
+    useEffect(()=>{
+        const fetchUsers = async()=>{
+            try {
+                setLoadingUsers(true)
+                const response = await getUsers();
+                if(response.data.users){
+                    const filteredUsers = response?.data?.users.filter((item)=>item._id !== user._id);
+                    setUsers(filteredUsers);
+                    console.log(filteredUsers)
+                }
+                
+            } catch (error) {
+                console.log(error)
+            }
+            finally{
+                setLoadingUsers(false)
+            }
+        }
+
+        fetchUsers();
+    }, [])
 
     const testMessages = [
         {
@@ -53,6 +88,34 @@ function Chats(props) {
     const [conversations, setConversations] = useState([]);
     const [chatOpen, setChatOpen] = useState(false);
     
+    const [messageData, setMessageData] = useState({
+        message: "",
+        date: "",
+        time: "",
+        sender: "",
+        recepient: ""
+    
+    })
+    const handleSendMessage = ()=>{
+        const data = {
+            message: "That sounds great! I've been doing the same. We should catch up soon.",
+            date: "2023-10-15",
+            time: "09:55",
+            sender: "653514d0e83623c11c1036c6",
+            recepient: "653a243a5711d2689324d63b"
+        }
+        socket.emit('send__message', data);
+    }
+
+    useEffect(() => {
+        socket.on("receive__message", (data) => {
+          console.log("YYYY", data)
+        });
+        return () => socket.removeListener('receive__message')
+      }, []);
+
+
+
       
     return (
         <>
@@ -61,7 +124,7 @@ function Chats(props) {
                 <div className='w-3/10 relative rounded-lg p-2 mt-2 bg-white flex flex-col'>
                     <div className='flex justify-between items-center mb-2'>
                         <h1>Chats</h1>
-                        <button className='bg-main text-white flex full-center'>
+                        <button onClick={handleSendMessage} className='bg-main text-white flex full-center'>
                             CONNECT
                         </button>
                     </div>
@@ -102,8 +165,6 @@ function Chats(props) {
                         </div>
                     }
 
-
-                    
 
                 </div>
 
@@ -161,7 +222,28 @@ function Chats(props) {
 
                 }
             </main>
-            {/* <Footer/> */}
+            <Modal
+            isOpen={modalOpened}
+            setIsOpen={setModalOpened}            
+            >
+                <div className='flex flex-col gap-2 users__search--modal'>
+                    <h1 className='opacity-5 font-400'>Alumnis</h1>
+                    <form className='w-full'>
+                        <input type="text" name="" id="" placeholder='Search' className='border-gray w-full p-1/2 rounded-sm'/>
+                    </form>
+                    <div>
+                        {users.map((user)=>(
+                            <div className='flex items-center gap-1 user__repeated'>
+                                <img src={images.user2} alt="" className='small__profile rounded-full cover'/>
+                                <p>{user.firstName} {user.lastName}</p>
+                            </div>
+                        ))
+                            
+                        }
+                    </div>                    
+                </div>
+
+            </Modal>
         </>
     );
 }

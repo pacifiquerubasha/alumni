@@ -33,7 +33,7 @@ function MyEvents(props) {
         },
         {
             title: 'Total Attendees',
-            value: 0
+            value: myEvents.reduce((acc, curr)=>acc+curr?.attendees?.length, 0)
         }
     ]
 

@@ -956,3 +956,23 @@ button .loading{
 .closed__chats--img{
   width: 20rem;
 }
+
+.users__search--modal{
+  width: 30rem;
+  max-width: 90%;
+}
+
+.small__profile{
+  width: 2rem;
+  height: 2rem;
+}
+
+.user__repeated{
+  padding: .5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user__repeated:hover{
+  background-color: var(--color-whiteorange);
+}

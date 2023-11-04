@@ -73,3 +73,8 @@ export async function getMyEvents(userId){
     const url = `${API_URL}/api/events/user/${userId}`
     return axios.get(url).then(response => response.data)
 }
+
+export async function getUsers(){
+    const url = `${API_URL}/api/users/`
+    return axios.get(url).then(response => response.data)
+}
