@@ -30,6 +30,15 @@ function initSocket(server) {
             }
         });
 
+        //Start Conversation
+        socket.on("start__conversation", (conversationData) => {
+            console.log("CONV DATA", conversationData)
+            //Create a new conversation in the database
+            //Send the conversation data to the other user
+            
+
+        });
+
         
         socket.on("disconnect", () => {
             console.log("user disconnected");

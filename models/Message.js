@@ -24,6 +24,10 @@ const messageSchema = new mongoose.Schema({
     isFirstMessage:{
         type: Boolean,
         default: false,
+    },
+    conversationId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Conversation',    
     }
 });
 

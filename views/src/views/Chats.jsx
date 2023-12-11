@@ -16,7 +16,7 @@ function Chats(props) {
 
     const [users, setUsers] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(false);
-    const [modalOpened, setModalOpened] = useState(true);
+    const [modalOpened, setModalOpened] = useState(false);
 
     useEffect(()=>{
         const fetchUsers = async()=>{
@@ -96,6 +96,8 @@ function Chats(props) {
         recepient: ""
     
     })
+
+
     const handleSendMessage = ()=>{
         const data = {
             message: "That sounds great! I've been doing the same. We should catch up soon.",
@@ -106,6 +108,17 @@ function Chats(props) {
         }
         socket.emit('send__message', data);
     }
+
+    const startConversation = (recepientId)=>{
+        const data = {
+            senderId:user._id,
+            recepientId
+        }
+
+        socket.emit('start__conversation', data);
+    
+    }
+
 
     useEffect(() => {
         socket.on("receive__message", (data) => {
@@ -124,7 +137,7 @@ function Chats(props) {
                 <div className='w-3/10 relative rounded-lg p-2 mt-2 bg-white flex flex-col'>
                     <div className='flex justify-between items-center mb-2'>
                         <h1>Chats</h1>
-                        <button onClick={handleSendMessage} className='bg-main text-white flex full-center'>
+                        <button onClick={setModalOpened} className='bg-main text-white flex full-center'>
                             CONNECT
                         </button>
                     </div>
@@ -233,12 +246,11 @@ function Chats(props) {
                     </form>
                     <div>
                         {users.map((user)=>(
-                            <div className='flex items-center gap-1 user__repeated'>
+                            <div onClick={()=>startConversation(user._id)} className='flex items-center gap-1 user__repeated'>
                                 <img src={images.user2} alt="" className='small__profile rounded-full cover'/>
                                 <p>{user.firstName} {user.lastName}</p>
                             </div>
-                        ))
-                            
+                        ))                            
                         }
                     </div>                    
                 </div>

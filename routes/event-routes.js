@@ -1,5 +1,15 @@
 const express = require("express");
-const { createEvent, updateEvent, deleteEvent, getAllEvents, getEvent, getUpcomingEvents, getEventsBySearch, registerForEvent, getMyEvents } = require("../controllers/events");
+const { 
+    createEvent, 
+    updateEvent, 
+    deleteEvent, 
+    getAllEvents, 
+    getEvent, 
+    getUpcomingEvents, 
+    getEventsBySearch, 
+    registerForEvent, 
+    getMyEvents,
+    getMyRegisteredEvents } = require("../controllers/events");
 const upload = require("../utils/upload");
 
 const eventsRouter = express.Router();
@@ -13,7 +23,7 @@ eventsRouter.get("/", getAllEvents)
 eventsRouter.get("/upcoming", getUpcomingEvents)
 eventsRouter.get("/:id", getEvent)
 eventsRouter.post("/event/rsvp", registerForEvent)
-
+eventsRouter.get("/user/:id/registered", getMyRegisteredEvents)
 
 
 module.exports = {eventsRouter};

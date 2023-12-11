@@ -12,6 +12,7 @@ const {initSocket} = require('./utils/socket')
 
 const { authMiddleware } = require('./middlewares/authMiddleware');
 const { eventsRouter } = require('./routes/event-routes');
+const { conversationsRouter } = require('./routes/conversation-routes');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/images', express.static('uploads'));
 
 app.use("/api/users", userRouter);
 app.use("/api/events", eventsRouter);
+app.use("/api/conversations", conversationsRouter);
 
 
 app.all('*', (req, res, next) => {

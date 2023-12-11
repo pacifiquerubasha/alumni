@@ -13,11 +13,6 @@ const signup = async(req, res, next)=>{
         password,
         firstName,
         lastName,
-        role,
-        jobTitle,
-        company,
-        nationality,
-        yearOfGraduation,
     } = req.body;
 
     //Check if required fields are provided
@@ -71,11 +66,6 @@ const signup = async(req, res, next)=>{
             password: hashedPassword,
             firstName,
             lastName,
-            role,
-            jobTitle,
-            company,
-            nationality,
-            yearOfGraduation,
             emailVerificationCode,
             emailVerificationCodeExpiry,
         })
@@ -109,7 +99,6 @@ const signup = async(req, res, next)=>{
 
 
 }
-
 
 const verifyEmail = async(req, res, next)=>{
 
@@ -195,15 +184,47 @@ const deleteUser = async(req, res)=>{
 
 const getAllUsers = async(req, res, next)=>{
 
-    try {
+    try {       
+
         const users = await User.find().select('-password -emailVerificationCode -emailVerificationCodeExpiry');
+        // Aggregate total alumnis, total unique job titles, unique companies
+        const totalAlumnis = await User.countDocuments({role: "alumni"});
+        const uniqueJobTitles = await User.distinct("jobTitle");
+        const uniqueCompanies = await User.distinct("company");       
+        
         res.status(200).json({
             message: "success",
             data: {
-                users
+                users,
+                totalAlumnis,
+                uniqueJobTitles,
+                uniqueCompanies
             }
         })
         
+    } catch (error) {
+        res.status(400).json({
+            message: "fail",
+            data: {
+                message: error.message
+            }
+        })
+        
+    }
+}
+
+const getOneUser = async(req, res)=>{
+    const {id} = req.params;
+
+    try {
+        const user = await User.findById(id);
+        res.status(200).json({
+            message: "success",
+            data: {
+                user
+            }
+        })               
+            
     } catch (error) {
         res.status(400).json({
             message: "fail",
@@ -322,6 +343,16 @@ const login = async(req, res, next)=>{
             })
         }
 
+        //Check if user was softdeleted
+        if(user.softDeleted){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "Account deleted! Please contact the admin."
+                }
+            })
+        }
+
         //Check if password is correct
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch){
@@ -334,7 +365,7 @@ const login = async(req, res, next)=>{
         }
 
         //Generate a jwt token 
-        const token = jwt.sign({id: user._id, email}, process.env.JWT_SECRET, {expiresIn: "12h"});
+        const token = jwt.sign({id: user._id, email}, process.env.JWT_SECRET);
         
         res.cookie('jwt', token, {
             httpOnly: true, 
@@ -371,7 +402,8 @@ const logout = async(req, res, next)=>{
 
 const getCurrentUser = async(req, res)=>{
 
-    const token = req.cookies.jwt;
+    const {token} = req.body;
+    console.log("TOKEN", token)
 
     if(!token){
         return res.status(400).json({
@@ -416,6 +448,175 @@ const getCurrentUser = async(req, res)=>{
     
 }
 
+const updateUser = async(req, res)=>{
+    const {id} = req.params;
+    const {
+        firstName, 
+        lastName, 
+        middleName,
+        email, 
+        username, 
+        role, 
+        company, 
+        jobTitle, 
+        location, 
+        about,
+        nationality,
+        yearOfGraduation
+        } = req.body;
+
+    try {
+        const user = await User.findById(id);
+        if(!user){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "User not found"
+                }
+            })
+        }
+
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.middleName = middleName;
+        user.email = email;
+        user.username = username;
+        user.role = role;
+        user.company = company;
+        user.jobTitle = jobTitle;
+        user.location = location;
+        user.about = about;
+        user.nationality = nationality,
+        user.yearOfGraduation = yearOfGraduation;
+
+        await user.save();
+
+        res.status(200).json({
+            message: "success",
+            data: {
+                user
+            }
+        })
+        
+    } catch (error) {
+        res.status(400).json({
+            message: "fail",
+            data: {
+                message: error.message
+            }
+        })
+        
+    }
+
+}
+
+const changePassword = async(req, res)=>{
+    const {id} = req.params;
+    const {currentPassword, newPassword} = req.body
+
+    try {
+        const user = await User.findById(id);        
+        //Check if old password matches current password
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+        if(!isMatch){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "Invalid old password"
+                }
+            })
+        }
+
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+        await user.save();
+
+        res.status(200).json({
+            message: "success",
+            data: {
+                message: "Password changed successfully"
+            }
+        })
+        
+    } catch (error) {
+        
+    }
+}
+
+const softDeleteUser = async(req, res)=>{
+    const {id} = req.params;
+    try {
+
+        const user = await User.findById(id);
+        if(!user){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "User not found"
+                }
+            })
+        }
+
+        user.softDeleted = true;
+        await user.save();
+
+        res.status(200).json({
+            message: "success",
+            data: {
+                message: "User deleted successfully"
+            }
+        })        
+    } catch (error) {
+        res.status(400).json({
+            message: "fail",
+            data: {
+                message: error.message
+            }
+        })        
+    }
+
+}
+
+const changeProfilePicture = async(req, res)=>{
+    const {id} = req.params;
+
+    const imagePath = req?.file?.filename;
+
+    try {
+        const user = await User.findById(id);
+        if(!user){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "User not found"
+                }
+            })
+        }
+
+        user.profilePicture = imagePath;
+        await user.save();
+
+        res.status(200).json({
+            message: "success",
+            data: {
+                user
+            }
+        })
+        
+    } catch (error) {
+        res.status(400).json({
+            message: "fail",
+            data: {
+                message: error.message
+            }
+        })
+        
+    }
+
+}
+
 //Export
 module.exports = {
     signup,
@@ -425,5 +626,11 @@ module.exports = {
     login,
     logout,
     deleteUser,
-    getCurrentUser
+    getCurrentUser,
+    getOneUser,
+    updateUser,
+    changePassword,
+    softDeleteUser,
+    changeProfilePicture
+
 }

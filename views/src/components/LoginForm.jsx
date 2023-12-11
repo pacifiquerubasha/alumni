@@ -36,8 +36,10 @@ function LoginForm(props) {
                     type:'success',
                     text:'Login successful'                
                 })
-                // localStorage.setItem("alumniToken", response.data.token);
-                navigate("/")                
+                localStorage.setItem("alumneersToken", response.data.token);
+                setTimeout(() => {
+                    navigate("/dashboard")               
+                }, 1000);
             }
             
         } catch (error) {
@@ -46,17 +48,16 @@ function LoginForm(props) {
         finally{
             setLoading(false)
         }
-    }
+    }      
 
-
-        
+    const [passwordVisible, setPasswordVisible] = useState(false);
      
 
 
 
     return (
         <form onSubmit={handleSubmit} className='contact__form auth__form shadow-3 bg-white rounded-lg p-2 pb-3'>
-            <NavLink to="/" className='text-3xl font-700 logo__gradient'>ALUmnis</NavLink>
+            <a href="/" className='text-3xl font-700 logo__gradient'>ALUmnis</a>
             <h1 className='mt-2 text-xl'>Welcome to ALUmnis</h1>
             <p className='opacity-4 mb-2'>Ready to connect with your alumni community? Sign in now!</p>
             
@@ -67,8 +68,8 @@ function LoginForm(props) {
             </div>
             <div className="form__group relative">
                 <label htmlFor="password">Password</label>
-                <input type="password" id='password' name="password" placeholder='Your password' onChange={handleInputChange} required/>
-                <i className='fas fa-eye show__pass'></i>
+                <input type={passwordVisible ? "text":"password"} id='password' name="password" placeholder='Your password' onChange={handleInputChange} required/>
+                <i onClick={()=>setPasswordVisible((prev)=>!prev)} className={`fas fa-${passwordVisible ? "eye-slash":"eye"} show__pass`}></i>
             </div>
             <div className="flex items-center justify-between">
                 <NavLink href="" className="color-darkblue">Forgot password?</NavLink>

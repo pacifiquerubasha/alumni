@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  middleName: {
+    type: String,
+    required: true,
+  },
   lastName: {
     type: String,
     required: true,
@@ -40,6 +44,15 @@ const userSchema = new mongoose.Schema({
   yearOfGraduation: {
     type: Number,
   },
+  profilePicture: {
+    type: String,
+  },
+  location: {
+    type: String,
+  },
+  about: {
+    type: String,
+  },
   eventsParticipating: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Event',
@@ -58,6 +71,10 @@ const userSchema = new mongoose.Schema({
   emailVerificationCodeExpiry: {
     type: Date,
   },
+  softDeleted:{
+    type: Boolean,
+    default: false,
+  }
 });
 
 const User = mongoose.model('User', userSchema);

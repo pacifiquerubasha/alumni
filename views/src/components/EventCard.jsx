@@ -1,22 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { images } from '../utils/images';
 import { NavLink } from 'react-router-dom';
 import { formatDate } from '../utils/utils';
-import { API_URL } from '../services/apis';
+import { API_URL, handleRegister } from '../services/apis';
 import { AppContext } from '../AppContext';
 
-function EventCard({data}) {
+function EventCard({data, isApp}) {
 
     const {user} = useContext(AppContext);
 
-    const handleOpenRSVPopup = (e)=>{
-        e.stopPropagation();
-        console.log('RSVP', data);
+    const [registering, setRegistering] = useState(false);
+    
+    const registerEvent = async()=>{
+        try {
+            setRegistering(true);
+            let res = await handleRegister({eventId: data._id, userId: user._id });
+            if(res?.data){
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);                
+            }
+            
+        } catch (error) {
+            console.log(error)                        
+        }
+        finally{
+            setRegistering(false);
+        }
+
     }
 
+    const clickLink = isApp ? "alumni-events" : "events"
+
     return (
-        <div className='card__repeated block rounded-lg overflow-hidden'>
-            <NavLink to={`/events/${data?._id}`} className='relative'>
+        <div className='card__repeated block rounded-lg overflow-hidden flex flex-col'>
+            <NavLink to={`/${clickLink}/${data?._id}`} className='relative'>
 
                 <img src={`${API_URL}/images/${data?.image}` || images.celebrate} alt="" className='cover' />
                 
@@ -24,7 +42,7 @@ function EventCard({data}) {
                     {data?.organizer?.name}
                 </div>
             </NavLink>
-            <div className='px-2 py-1'>
+            <div className='px-2 py-1 flex flex-col flex-1'>
                 <div className='opacity-5'>{formatDate(data?.date)}</div>
                 <h4 className='text-xl'>{data?.title}</h4>
                 <p className='text-md mb-2'>{data?.organizer?.dabout}</p>
@@ -32,18 +50,19 @@ function EventCard({data}) {
                     <i className='fas fa-map-marker'></i>
                     <span>{data?.location}</span>
                 </div>   
-                <div className='flex justify-between mt-2 items-center'>
+                <div className='flex flex-1 justify-between mt-2 items-end'>
                     <div className='flex items-center gap-1'>
                         <div className='card__icon'>
                             <i className='fas fa-group'></i>
                         </div>
                         <span>{data?.totalRSVPS}</span>
                     </div>
+                    
                     {data?.attendees?.some((attendee)=>attendee?._id === user?._id) ?
                         <i className='fas fa-check-circle text-green text-xl'></i>
                         :
-                        <button onClick={handleOpenRSVPopup} className='main__btn border__btn font-400'>
-                            RSVP
+                        <button onClick={registerEvent} className='main__btn border__btn font-400'>
+                            {registering ? "..." : "RSVP"}
                         </button>
 
                     }

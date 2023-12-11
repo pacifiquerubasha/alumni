@@ -2,6 +2,8 @@ const express = require("express");
 const RSVP = require("../models/RSVP");
 const Event = require("../models/Event");
 const User = require("../models/User");
+const { eventRegistrationTemplate } = require("../utils/mailTemplates");
+const { sendEmail } = require("../utils/mailer");
 
 const createEvent = async(req, res)=>{
 
@@ -42,6 +44,11 @@ const createEvent = async(req, res)=>{
           capacity,
           createdBy
         });
+
+        // Find user
+        const user = await User.findById(createdBy);
+        user.eventsOrganized.push(newEvent._id);
+        await user.save();
     
 
         return res.status(201).json({
@@ -291,7 +298,21 @@ const registerForEvent = async(req, res)=>{
 
             event.totalRSVPS++;
             await event.save();
-            
+
+            // Add event to user's eventsParticipating array
+            user.eventsParticipating.push(eventId);            
+            await user.save();
+
+            const randomID = Math.floor(1000 + Math.random() * 9000);
+
+            // Send email to user
+            const info = sendEmail({
+                from: process.env.MAILER_EMAIL,
+                to: user.email,
+                subject: "Event Registration Confirmation",
+                html: eventRegistrationTemplate(randomID, user, event),
+            })
+
             return res.status(201).json({
                 message: 'success',
                 data: {
@@ -323,6 +344,29 @@ const registerForEvent = async(req, res)=>{
 
 }
 
+const getMyRegisteredEvents = async(req, res)=>{
+    try {
+        const {id} = req.params;
+        const events = await RSVP.find({userId: id}).populate("eventId", "title date");
+    
+        return res.status(200).json({
+            message: 'success',
+            data: {
+                events,
+            },
+        });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'fail',
+            data: {
+                message: error.message,
+            },
+        });
+      }
+
+}
+
 module.exports = {
     createEvent,
     updateEvent,
@@ -332,6 +376,7 @@ module.exports = {
     getEventsBySearch,
     getUpcomingEvents,
     registerForEvent,
-    getMyEvents
+    getMyEvents,
+    getMyRegisteredEvents
 
 }

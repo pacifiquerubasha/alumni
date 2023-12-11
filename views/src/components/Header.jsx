@@ -45,16 +45,6 @@ function Header(props) {
     const [menuItems, setMenuItems] = useState(loggedOutItems)
 
 
-
-    useEffect(()=>{
-        if(user){
-            setMenuItems(loggedInItems)
-        }
-        
-        
-    }, [user])
-
-
     return (
         <header className='flex z-total justify-between px-5 items-center py-2 fixed w-full bg-white'>
             <NavLink to="/" className='text-3xl font-700 logo__gradient'>ALUmineers</NavLink>

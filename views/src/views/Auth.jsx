@@ -1,14 +1,17 @@
-import React, {useState} from 'react';
-import { NavLink } from 'react-router-dom';
+import React, {useContext, useEffect, useState} from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 import VerifyEmail from '../components/VerifyEmail';
+import { AppContext } from '../AppContext';
 
 function Auth(props) {
 
+
     const [isLogin, setIsLogin] = useState(true);
     const [emailVerification, setEmailVerification] = useState(null);
-    
+
+
     return (
         <div className='auth__page relative h-screen w-full flex items-center'>
             <div className='w-4/5 flex items-center mx-auto h-full'>

@@ -17,6 +17,7 @@ const sendMessage = async(data)=>{
 
     }catch(error){
         console.error(error);
+        return null;
     }
 
 }

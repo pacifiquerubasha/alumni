@@ -11,12 +11,16 @@ import EventDetails from './views/EventDetails';
 import Contact from './views/Contact';
 import Alumnis from './views/Alumnis';
 import 'react-calendar/dist/Calendar.css';
-import MyEvents from './views/MyEvents';
 import Auth from './views/Auth';
-import { API_URL, getCurrentUser } from './services/apis';
+import { API_URL, getCurrentUser, token } from './services/apis';
 import MainApp from './components/MainApp';
 import Chats from './views/Chats';
-import Profile from './views/Profile';
+import Dashboard from './views/app/Dashboard';
+import MyEvents from './views/app/MyEvents';
+import AlumniEvents from './views/app/AlumniEvents';
+import ViewEvent from './views/app/ViewEvent';
+import Profile from './views/app/Profile';
+import ViewAlumni from './views/app/ViewAlumni';
 
 
 function App() {
@@ -42,7 +46,8 @@ function App() {
 
     setLoadingUser(true)
     try {
-      const response = await getCurrentUser();
+      const token = localStorage.getItem("alumneersToken");
+      const response = await getCurrentUser(token);
       if(response.data.user){
           setUser(response.data.user)
           console.log(response.data.user)
@@ -79,13 +84,21 @@ function App() {
                     <Route path="" element={<Events/>}/>
                     <Route path=":id" element={<EventDetails/> }/>
                   </Route>
-
-                  <Route path="chats" element={<Chats/>}/>
                   <Route path="contact" element={<Contact/>}/>
-                  <Route path="alumnis" element={<Alumnis/>}/>
+
+                  {/* <Route path="chats" element={<Chats/>}/> */}
+                  <Route path="dashboard" element={<Dashboard/>}/>
                   <Route path="my-events" element={<MyEvents/>}/>
+
+                  <Route path="alumni-events" element={<AlumniEvents/>}/>
+                  <Route path="alumni-events/:id" element={<ViewEvent/>}/>
+
+                  <Route path="alumni" element={<Alumnis/>}/>
+                  <Route path="alumni/:id" element={<ViewAlumni/>}/>
+
                   <Route path="profile" element={<Profile/>}/>
                 </Route>
+                
 
             </Routes>
         </BrowserRouter>

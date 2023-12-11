@@ -7,3 +7,7 @@ export const formatDate = (date) => {
     const formattedDate = newDate.toLocaleDateString('en-US', options);
     return formattedDate;
 }
+
+export const isPastEvent = (date)=>{
+    return new Date((date)?.split(" ")[0]) - new Date() < 0 
+}

@@ -484,6 +484,12 @@ main{
   opacity: 0;
 }
 
+input,
+textarea{
+  font-family: 'Manrope', sans-serif !important;
+}
+
+
 select{
   border: 1.2px solid rgb(194, 194, 194)
 }
@@ -495,10 +501,11 @@ select{
 .alumni__card{
   border: 1px solid rgba(128, 128, 128, 0.305);
   transition: all ease-in-out .3s;
+  width: 20rem;
 }
 
 .alumni__card:hover{
-  background-color: rgba(2,3,129, .25);
+  background-color:#f5b5b821;
   color: var(--color-darkblue);
 }
 
@@ -975,4 +982,85 @@ button .loading{
 
 .user__repeated:hover{
   background-color: var(--color-whiteorange);
+}
+
+.app__header{
+  height: 7vh;
+  position: fixed;  
+}
+
+.app__body{
+  height: 100vh;
+  padding-top: 7vh;
+
+}
+
+.app__field{
+  background-color: var(--color-whiteorange);
+}
+
+.app__menu--item{
+  padding: .75rem 1rem;
+}
+
+.app__menu--item:hover{
+  background-color: var(--color-whiteorange);
+}
+.app__menu--item.active{
+  background-color: var(--color-main);
+  color: white;
+}
+
+.app__menu--item i{
+  width: 2rem;
+}
+
+
+.app__events,
+.app__events--skeleton{
+  width: 25rem !important;
+  max-width: 100%;
+  height: auto;
+}
+
+.events__container:has(.app__events){
+  align-items: stretch !important;
+}
+
+.app__events .card__repeated{
+  height: 100% !important;
+}
+
+.label__green{
+  background-color: #55c3601c;
+  color:  #55c360;
+  padding-inline: .5rem;
+}
+
+.label__red{
+  background-color: #bf2c3337;
+  color:  var(--color-main);
+  padding-inline: .5rem;
+}
+
+.loading__events>span,
+.loading__container>span{
+  display: block;
+  scale: .75;
+}
+
+.user__admin{
+  background-color: #55c3601c !important;
+  color:  #32803a;
+  padding-inline: .5rem;
+}
+
+.profile__img--loader{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: #bf2c33b5;
 }
