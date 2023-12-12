@@ -9,10 +9,14 @@ const {
     getEventsBySearch, 
     registerForEvent, 
     getMyEvents,
-    getMyRegisteredEvents } = require("../controllers/events");
+    getMyRegisteredEvents,
+    testCalendarInvite } = require("../controllers/events");
 const upload = require("../utils/upload");
 
 const eventsRouter = express.Router();
+
+eventsRouter.get("/test", testCalendarInvite)
+
 
 eventsRouter.post("/", upload.single('image'), createEvent)
 eventsRouter.get("/search", getEventsBySearch)

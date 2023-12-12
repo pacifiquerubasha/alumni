@@ -4,6 +4,7 @@ const Event = require("../models/Event");
 const User = require("../models/User");
 const { eventRegistrationTemplate } = require("../utils/mailTemplates");
 const { sendEmail } = require("../utils/mailer");
+const {generateInviteAlternatives} = require("../utils/generateInvite");
 
 const createEvent = async(req, res)=>{
 
@@ -306,12 +307,39 @@ const registerForEvent = async(req, res)=>{
             const randomID = Math.floor(1000 + Math.random() * 9000);
 
             // Send email to user
-            const info = sendEmail({
-                from: process.env.MAILER_EMAIL,
-                to: user.email,
-                subject: "Event Registration Confirmation",
-                html: eventRegistrationTemplate(randomID, user, event),
-            })
+
+            // Create a Date object from the date string
+            const [hours, minutes] = event.time.split(':').map(Number);
+            
+            const startTime = new Date(event.date);
+            startTime.setHours(hours);
+            startTime.setMinutes(minutes);
+
+            const endTime = new Date(event.date);
+            endTime.setHours(hours + 2);
+
+            sendInvite(
+                {
+                    from: process.env.MAILER_EMAIL,
+                    to: user.email,
+                    subject: "Event Registration Confirmation",
+                    html: eventRegistrationTemplate(randomID, user, event),
+                },
+                [
+                    startTime,
+                    endTime,
+                    event.title,
+                    event.description,
+                    event.location,
+                    "https://www.alueducation.com",
+                    event.organizer,
+                    process.env.MAILER_EMAIL,
+                    user.email,
+                    `${user.firstName} ${user.lastName}`,
+    
+                ]
+            )      
+
 
             return res.status(201).json({
                 message: 'success',
@@ -367,6 +395,64 @@ const getMyRegisteredEvents = async(req, res)=>{
 
 }
 
+const sendInvite = (initialMailOptions, inviteOptions)=>{
+    const mailOptions = {
+        ...initialMailOptions,
+    }
+
+    const alternatives = generateInviteAlternatives(...inviteOptions)
+    if(alternatives){
+        mailOptions['alternatives'] = alternatives;
+        mailOptions['alternatives']['contentType'] = 'text/calendar'
+        mailOptions['alternatives']['content'] 
+    }
+
+    sendEmail(mailOptions); 
+
+}
+
+const testCalendarInvite = async(req, res)=>{
+    try {
+
+        sendInvite(
+            {
+                from: process.env.MAILER_EMAIL,
+                to: "p.kishinyambwe@alustudent.com",
+                subject: "Test Calendar Invite 2",
+            },
+            [
+                new Date("2023-12-15T06:01:07.795Z"),
+                new Date("2023-12-15T08:01:07.795Z"),
+                "Test Event",
+                "This is a test event",
+                "Test Location",
+                "https://www.google.com",
+                "Test Organizer",
+                process.env.MAILER_EMAIL,
+                "p.kishinyambwe@alustudent.com",
+                "Pacifique Rubasha",
+
+            ]
+        )          
+        
+
+        return res.status(200).json({
+            message: 'success',
+        });
+
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'fail',
+            data: {
+                message: error.message,
+            },
+        });
+      }
+
+
+}
+
 module.exports = {
     createEvent,
     updateEvent,
@@ -377,6 +463,7 @@ module.exports = {
     getUpcomingEvents,
     registerForEvent,
     getMyEvents,
-    getMyRegisteredEvents
+    getMyRegisteredEvents,
+    testCalendarInvite
 
 }

@@ -154,7 +154,7 @@ function EventDetails(props) {
                                 <div className='qrcode__section p-2'>
                                     <QRCode
                                         title={eventDetails.title}
-                                        value={`http://localhost:5173/events/${id}`}
+                                        value={`https:alumineers.netlify.app/events/${id}`}
                                         fgColor={"rgb(2,3,129)"}
                                         size={"100%"}
                                     />
