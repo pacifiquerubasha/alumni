@@ -14,7 +14,7 @@ const {
     softDeleteUser,
     changeProfilePicture} = require("../controllers/users");
 
-    const upload = require("../utils/upload");
+const upload = require("../utils/upload");
 
 const userRouter = express.Router();
 

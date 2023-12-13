@@ -25,6 +25,10 @@ function Profile(props) {
         },
     ]
 
+    useEffect(()=>{
+        console.log(user);
+    }, [])
+
     const handleChange = (e)=>{
         console.log(e.target.value)
         setFormFields(
@@ -254,23 +258,23 @@ function Profile(props) {
                                 <div className='flex gap-2 w-full'>
                                     <div className="form__group flex-1">
                                         <label htmlFor="jobTitle">Job title</label>
-                                        <input type="text" id="jobTitle" name="jobTitle" value={formFields?.jobTitle || ""} placeholder="Your Job title" onChange={handleChange} required readOnly={!isEditGeneral}/>
+                                        <input type="text" id="jobTitle" name="jobTitle" value={formFields?.jobTitle || ""} placeholder="Your Job title" onChange={handleChange} readOnly={!isEditGeneral}/>
                                     </div>
                                     <div className="form__group flex-1">
                                         <label htmlFor="company">Company</label>
-                                        <input type="text" id="company" name="company" value={formFields?.company || ""} placeholder="Your company" onChange={handleChange} required readOnly={!isEditGeneral}/>
+                                        <input type="text" id="company" name="company" value={formFields?.company || ""} placeholder="Your company" onChange={handleChange} readOnly={!isEditGeneral}/>
                                     </div>
                                 </div>
                                 <div className='flex gap-2 w-full'>
                                     <div className="form__group flex-1">
                                         <label htmlFor="about">About</label>
-                                        <textarea id="about" rows={5} name="about" placeholder="Your about" value={formFields?.about || ""} onChange={handleChange} required readOnly={!isEditGeneral}>
+                                        <textarea id="about" rows={5} name="about" placeholder="Your about" value={formFields?.about || ""} onChange={handleChange} readOnly={!isEditGeneral}>
 
                                         </textarea>
                                     </div>
                                     <div className="form__group flex-1">
                                         <label htmlFor="location">Address</label>
-                                        <input type="text" id="location" name="location" value={formFields?.location || ""} placeholder="Your address" onChange={handleChange} required readOnly={!isEditGeneral}/>
+                                        <input type="text" id="location" name="location" value={formFields?.location || ""} placeholder="Your address" onChange={handleChange} readOnly={!isEditGeneral}/>
                                     </div>
                                 </div>
                                 <button className='main__btn mt-1 px-5'>

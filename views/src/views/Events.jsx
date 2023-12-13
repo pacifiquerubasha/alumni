@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import EventCard from '../components/EventCard';
-import { getEvents } from '../services/apis';
+import { getEvents, getUpcomingEvents } from '../services/apis';
 import { SkeletonLoader } from '../components/Loaders';
 
 function Events(props) {
@@ -29,7 +29,7 @@ function Events(props) {
     useEffect(()=>{
         const fetchEvents = async()=>{
             setLoading(true)
-            const events = await getEvents();
+            const events = await getUpcomingEvents();
             setAllEvents(events?.data?.events);
             setEvents(events?.data?.events);
             setLoading(false)

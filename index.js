@@ -2,7 +2,6 @@ require('dotenv').config();
 
 const express = require("express");
 const mongoose = require("mongoose");
-const { userRouter } = require('./routes/user-routes');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -11,8 +10,10 @@ const http = require("http");
 const {initSocket} = require('./utils/socket')
 
 const { authMiddleware } = require('./middlewares/authMiddleware');
+const { userRouter } = require('./routes/user-routes');
 const { eventsRouter } = require('./routes/event-routes');
-const { conversationsRouter } = require('./routes/conversation-routes');
+const { newsRouter } = require('./routes/news-routes');
+const { activityRouter } = require('./routes/activities-routes');
 
 const app = express();
 
@@ -20,20 +21,33 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(authMiddleware);
-app.use(cors({
+
+
+const allowedOrigins = [process.env.FRONTEND_URL, 'https://cron-job.org']
+const corsOptions = {
     credentials: true,
-    origin: 'http://localhost:5173',
-}));
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || origin == undefined) {
+            callback(null, true)
+        } 
+        else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
+app.use(cors(corsOptions));
 
 const server = http.createServer(app);
 
-initSocket(server);
+// initSocket(server);
 
 app.use('/images', express.static('uploads'));
 
 app.use("/api/users", userRouter);
 app.use("/api/events", eventsRouter);
-app.use("/api/conversations", conversationsRouter);
+app.use("/api/news", newsRouter);
+app.use("/api/activities", activityRouter);
 
 
 app.all('*', (req, res, next) => {

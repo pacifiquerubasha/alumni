@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const { sendEmail } = require("../utils/mailer");
 const { verificationTemplate } = require("../utils/mailTemplates");
+const Activity = require("../models/Activity");
 
 const jwt = require("jsonwebtoken");
 
@@ -149,6 +150,14 @@ const verifyEmail = async(req, res, next)=>{
     userWithCode.emailVerificationCode = null;
     userWithCode.emailVerificationCodeExpiry = null;
     await userWithCode.save();
+
+    //Create an activity
+    await Activity.create({
+        message: "Email verified",
+        type: "create",
+        path:"/",
+        user: userWithCode._id
+    })
     
     res.status(200).json({
         message: "success",
@@ -164,6 +173,16 @@ const deleteUser = async(req, res)=>{
 
     try {
         await User.findByIdAndDelete(userId);
+        
+        // Create Activity
+        await Activity.create({
+            message: "You deleted a user",
+            path:"/alumni",
+            type: "delete",
+            user: "65769c2b60965b35130ab36d"
+        })
+
+
         res.status(200).json({
             message: "success",
             data: {
@@ -491,6 +510,14 @@ const updateUser = async(req, res)=>{
 
         await user.save();
 
+        // Create Activity
+        await Activity.create({
+            message: "You updated your profile",
+            path:"/profile",
+            type: "update",
+            user: user._id
+        })
+
         res.status(200).json({
             message: "success",
             data: {
@@ -533,6 +560,14 @@ const changePassword = async(req, res)=>{
         user.password = hashedPassword;
         await user.save();
 
+        // Create Activity
+        await Activity.create({
+            message: "You changed your password",
+            path:"/",
+            type: "update",
+            user: user._id
+        })
+
         res.status(200).json({
             message: "success",
             data: {
@@ -561,6 +596,14 @@ const softDeleteUser = async(req, res)=>{
 
         user.softDeleted = true;
         await user.save();
+
+        // Create Activity
+        await Activity.create({
+            message: "You deleted a user",
+            path:"/alumni",
+            type: "delete",
+            user: "65769c2b60965b35130ab36d"
+        })
 
         res.status(200).json({
             message: "success",
@@ -597,6 +640,14 @@ const changeProfilePicture = async(req, res)=>{
 
         user.profilePicture = imagePath;
         await user.save();
+
+        // Create Activity
+        await Activity.create({
+            message: "You changed your profile picture",
+            path:"/",
+            type: "update",
+            user: user._id
+        })
 
         res.status(200).json({
             message: "success",

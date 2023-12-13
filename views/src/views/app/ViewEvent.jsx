@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import AppWrapper from '../../components/AppWrapper';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../../AppContext';
-import { API_URL, deleteEvent, getOneEvent, handleRegister } from '../../services/apis';
+import { API_URL, cancelEvent, deleteEvent, getOneEvent, handleRegister } from '../../services/apis';
 import { SpinLoader } from '../../components/Loaders';
 import QRCode from 'react-qr-code';
 import { formatDate, isPastEvent } from '../../utils/utils';
@@ -102,6 +102,32 @@ function ViewEvent(props) {
         navigate(-1)
     }
 
+    const [openCancelModal, setOpenCancelModal] = useState(false);
+    const [cancelling, setCancelling] = useState(false);
+
+    const handleCancelEvent = async()=>{
+        let timeout;
+        try {
+            setCancelling(true);
+            let res = await cancelEvent(eventDetails._id);
+            if(res?.data){
+                setMessage({
+                    type: 'success',
+                    text: 'Event cancelled successfully'
+                })
+
+                window.location.reload();
+
+            }
+                
+        } catch (error) {
+            console.log(error)            
+        }
+        finally{
+            setCancelling(false);
+        }
+    }
+
     return (
         <AppWrapper title="ALUMNI EVENTS">
             {loading ?
@@ -111,13 +137,13 @@ function ViewEvent(props) {
                 : 
 
                 <>
-                    <section className="details__hero relative">
+                    <section className={`details__hero relative`}>
                         <div onClick={goBack} className="flex cursor-pointer gap-2 items-center mb-2">
                             <i className='fas fa-arrow-left text-2xl color-main'></i>
                             Back
                         </div>
                         <img src={`${API_URL}/images/${eventDetails.image}`} className='h-full cover' alt="" />
-                        <div className='absolute flex w-9/10 rounded-lg event__ticket shadow-2 mx-auto'>
+                        <div className={`absolute isolate bg-white flex w-9/10 rounded-lg event__ticket shadow-2 mx-auto ${eventDetails.isCanceled ? "event__details--cancelled":""}`}>
                             <div className='flex-1 ticket__left p-2'>
 
                                 <div className='flex justify-between items-center'>
@@ -138,17 +164,25 @@ function ViewEvent(props) {
                                     </div>
                                     <span className='text'>{eventDetails.location}</span>
                                 </div>
-                                <div className='flex mt-4 justify-between'>
+                                <div className='flex mt-4 justify-between items-center'>
                                     {!eventDetails?.attendees?.some((attendee)=>attendee._id === user?._id) ?
                                     <button onClick={registerEvent} className='main__btn'>{registering ? "..." : "RSVP"}</button>
                                     :
-                                    <span className='text-green italic'>You have already registered</span>
+                                    <>
+                                        {eventDetails.isCanceled ?
+                                            <span className='text-red italic font-600'>
+                                                This event has been cancelled
+                                            </span>
+                                            :
+                                            <span className='text-green italic'>You have already registered</span>
+                                        }                                    
+                                    </>
                                     }
 
 
                                     {eventDetails.createdBy === user?._id &&
                                     <div className='flex gap-3 items-center'>
-                                        {!isPastEvent(eventDetails.date) && <button onClick={handleOpenModal} className='main__btn border__btn'>EDIT</button>}
+                                        {!isPastEvent(eventDetails.date) && !eventDetails.isCanceled && <button onClick={handleOpenModal} className='main__btn border__btn'>EDIT</button>}
                                         <i onClick={()=>setOpenDeleteModal(true)} className='fas fa-trash text-2xl color-main cursor-pointer'></i>
                                     </div>
                                     }
@@ -252,6 +286,7 @@ function ViewEvent(props) {
                                     }
                                 </div>
                             </div>
+                            {!eventDetails?.isCanceled && user?.role === "manager" ? <button onClick={()=>setOpenCancelModal(true)} className='main__btn border__btn'>Cancel</button>:""}
 
                         </div>
 
@@ -268,6 +303,34 @@ function ViewEvent(props) {
                     setEventFormData={setEventFormData}
                     isEdit={true}
                 />
+            </Modal>
+
+            //Cancelation Modal
+            <Modal
+                isOpen={openCancelModal}
+                setIsOpen={setOpenCancelModal}
+            >
+                <div className='p-2 flex flex-col items-center'>
+                    {message.text ?
+                    
+                        <div className={`text-center mb-1 rounded-sm message ${message.type === 'error' ? 'badge__error' : 'badge__success'}`}>{message.text}</div>
+                        :
+                        <>
+                            <div className="cancel__icon full-center rounded-full mb-1">
+                                <i className='fas fa-times color-main text-2xl opacity-5'></i>
+                            </div>
+                            <h3 className='text-lg font-400'>Are you sure you want to cancel this event?</h3>
+                            <div className='flex justify-between w-full gap-3 mt-3'>
+                                <button onClick={()=>setOpenCancelModal(false)} className='main__btn border__btn btn__gray'>No</button>
+                                <button onClick={handleCancelEvent} className='main__btn'>
+                                    {cancelling ? "..." : "CANCEL"}
+                                </button>
+                            </div>                    
+                        </>
+                    
+                    }
+                </div>
+                
             </Modal>
 
             <Modal

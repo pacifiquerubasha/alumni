@@ -186,6 +186,10 @@ section.cta::before{
   background-color: white;
 }
 
+.card__repeated{
+  height: 100%;
+}
+
 .card__repeated:hover{
   color: black;
 }
@@ -326,12 +330,15 @@ main{
   right: 0;
 }
 
+.event__ticket {
+  background: white;
+}
+
 .qrcode__section,
 .organisor__details{
   width: 25rem;
 }
 
-.ticket__left,
 .qrcode__section{
   background-color: white;
 }
@@ -364,8 +371,8 @@ main{
 }
 
 .profile__rounded{
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .organisor__details{
@@ -609,10 +616,15 @@ button.react-calendar__navigation__label {
   background-color: #55c3602e;
 }
 
-.my__past--event,
+.my__past--event{
+  color: gray !important;
+  background-color:rgba(128, 128, 128, 0.087);
+}
+
 .badge__error{
-  color: var(--color-main) !important;
-  background-color:#bf2c3337
+  color: red !important;
+  background-color:rgba(255, 0, 0, 0.087);
+
 }
 
 .card__repeated img{
@@ -662,6 +674,7 @@ button.react-calendar__navigation__label {
   animation: rotation 2s linear infinite;
 }
 
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -705,16 +718,35 @@ button .loading{
   top: 15px;
   left: 15px;
   position: absolute;
+}
+
+.skel__anim,
+.skeleton__loader::after
+{
   background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5) 50%, transparent 100%),
    linear-gradient(#DDD 100px, transparent 0),
    linear-gradient(#DDD 16px, transparent 0),
    linear-gradient(#DDD 50px, transparent 0);
-  background-repeat: no-repeat;
-  background-size: 75px 175px, 100% 100px, 100% 16px, 100% 30px;
-  background-position: -185px 0, center 0, center 115px, center 142px;
-  box-sizing: border-box;
-  animation: animloader 1s linear infinite;
+    background-repeat: no-repeat;
+    background-size: 75px 175px, 100% 100px, 100% 16px, 100% 30px;
+    background-position: -185px 0, center 0, center 115px, center 142px;
+    box-sizing: border-box;
+    animation: animloader 1s linear infinite;
 }
+
+.big__skel{
+  background-size: 275px 375px, 100% 100px, 100% 216px, 100% 130px;
+  background-position: -185px 0, center 0, center 215px, center 242px;
+  animation: animloader2 2s linear infinite;
+
+}
+
+@keyframes animloader2 {
+  to {
+    background-position: 785px 0, center 0, center 215px, center 242px;
+  }
+}
+
 
 @keyframes animloader {
   to {
@@ -1063,4 +1095,174 @@ button .loading{
   width: 100%;
   height: 100%;
   background-color: #bf2c33b5;
+}
+
+.event__details--cancelled::after{
+  content: "Cancelled";
+  position: absolute;
+  color: var(--color-whiteorange);
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10rem;
+  z-index: -1;
+
+}
+
+.isolate{
+  isolation: isolate;
+}
+
+.cancel__icon{
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--color-main);
+  padding: .5rem;
+}
+
+.news__banner img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.news__banner--content{
+  color: var(--color-whiteorange);
+  text-align: center;
+  background: linear-gradient(90deg, rgba(2,3,129, 0.85) 0%, #bf2c3380 100%);
+  height: 20rem;
+}
+
+.news__banner--img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.user__activity{
+  font-size: .85rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 0.75rem;
+  color: gray;
+  color: green;
+  background-color: rgba(0, 255, 0, 0.186);
+}
+
+.delete{
+  color: red;
+  background-color: rgba(255, 0, 0, 0.186);
+}
+
+.update{
+  color:rgb(255, 106, 0);
+  background-color: rgba(255, 165, 0, 0.186);
+}
+
+.dash__title{
+  font-size: 1.75rem;
+}
+
+.dash__card--content{
+  border-radius: 5px;
+  padding: 2rem 1rem;
+}
+
+.stat__1{
+  background-color: #C9D4EF;
+  color: var(--color-darkblue);
+}
+
+.stat__2{
+  background-color: rgba(128, 0, 128, 0.236);
+  color: purple;
+}
+
+.stat__3{
+  background-color: rgba(255, 0, 0, 0.186);
+  color: red;
+}
+
+.quick__action--item{
+  padding: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all ease-in-out .3s;
+  border: 1px solid gray;
+  color: gray;
+}
+
+.quick__action--item:hover{
+  background-color: white;
+  color: var(--color-main);
+  border-color: white;
+}
+
+.dash__event{
+  padding: 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all ease-in-out .3s;
+  border: 1px solid gray;
+  color: gray;
+}
+
+.skel__anim::after{
+  display: none !important;
+}
+
+.empty__dash{
+  width: 50%;
+}
+
+.my__past--event .text-green{
+  color: gray;
+}
+
+.news__repeated{
+  width: 27rem;
+}
+
+.news__repeated:hover{
+  color: black;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+}
+
+.news__repeated h1{padding-bottom: 0.75rem; margin-bottom: 1rem;}
+.news__repeated h1:after{
+  content: "";
+  position: absolute;
+  bottom: 0.25rem;
+  left: 0;
+  width: 50%;
+  height: 3px;
+  background-color: var(--color-darkblue);
+  opacity: 0.5;
+}
+
+.bg-gray{
+  background-color: rgba(128, 128, 128, 0.205);
+}
+
+.bg__skel{
+  background-color: rgb(208, 208, 208);
+}
+
+.full__screen--empty{
+  width: 25rem;
+}
+
+.news__banner.big__skel{
+  background-color: rgb(208, 208, 208);
+  height: 20rem;
+}
+
+.py-10{
+  padding-top: 10rem;
+  padding-bottom: 10rem;
 }

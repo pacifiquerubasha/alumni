@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AppContext } from '../AppContext';
 import { images } from '../utils/images';
+import { API_URL } from '../services/apis';
 
 function Header(props) {
 
@@ -58,7 +59,7 @@ function Header(props) {
                 </ul>
                 {user ?
                     <NavLink to="/profile">
-                        <img src={images.user} alt="" className='profile__rounded border-main shadow-4 rounded-full cover' />
+                        <img src={` ${user?.profilePicture ? `${API_URL}/images/${user?.profilePicture}`: images.user}`} alt="" className='profile__rounded border-main shadow-4 rounded-full cover' />
                     </NavLink>
 
                     :

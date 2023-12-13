@@ -2,9 +2,11 @@ const express = require("express");
 const RSVP = require("../models/RSVP");
 const Event = require("../models/Event");
 const User = require("../models/User");
-const { eventRegistrationTemplate } = require("../utils/mailTemplates");
+const { eventRegistrationTemplate, eventCancellationTemplate } = require("../utils/mailTemplates");
 const { sendEmail } = require("../utils/mailer");
 const {generateInviteAlternatives} = require("../utils/generateInvite");
+const Activity = require("../models/Activity");
+
 
 const createEvent = async(req, res)=>{
 
@@ -50,8 +52,15 @@ const createEvent = async(req, res)=>{
         const user = await User.findById(createdBy);
         user.eventsOrganized.push(newEvent._id);
         await user.save();
-    
 
+        // Create an activity with message, path, type and user
+        const activity = await Activity.create({
+            message: `You created an event`,
+            path: `/alumni-events/${newEvent._id}`,
+            type: "create",
+            user: user._id,
+        });
+    
         return res.status(201).json({
             message: 'success',
             data: {
@@ -110,6 +119,14 @@ const updateEvent = async(req, res)=>{
           },
           { new: true }
         );
+
+        // Create an activity with message, path, type and user
+        const activity = await Activity.create({
+            message: `You updated the event ${event.title}`,
+            path: `/alumni-events/${event._id}`,
+            type: "update",
+            user: event.createdBy,
+        });
     
         return res.status(200).json({
             message: 'success',
@@ -132,7 +149,15 @@ const updateEvent = async(req, res)=>{
 const deleteEvent = async(req, res)=>{
     try {
         const {id} = req.params;
-        await Event.deleteOne({ _id: id });
+        //Find user for this event
+        const event = await Event.findByIdAndDelete(id);
+        // Create an activity with message, path, type and user
+        const activity = await Activity.create({
+            message: `You deleted an event`,
+            path: `/my-events`,
+            type: "delete",
+            user: event.createdBy,
+        });
     
         return res.status(200).json({
             message: 'success',
@@ -153,7 +178,7 @@ const deleteEvent = async(req, res)=>{
 
 const getAllEvents = async(req, res)=>{
     try {
-        const events = await Event.find();
+        const events = await Event.find().sort('-date');
     
         return res.status(200).json({
             message: 'success',
@@ -251,7 +276,8 @@ const getEventsBySearch = async(req, res)=> {
 
 const getUpcomingEvents = async(req, res)=>{
     try {
-        const events = await Event.find({date: {$gte: new Date()}});
+
+        const events = await Event.find({date: {$gte: new Date()}, isCanceled:false}).sort({date: 1});
     
         return res.status(200).json({
             message: 'success',
@@ -340,6 +366,13 @@ const registerForEvent = async(req, res)=>{
                 ]
             )      
 
+            const activity = await Activity.create({
+                message: `You registered for an event`,
+                path: `/alumni-events/${event._id}`,
+                type: "create",
+                user: user._id,
+            });
+
 
             return res.status(201).json({
                 message: 'success',
@@ -375,7 +408,7 @@ const registerForEvent = async(req, res)=>{
 const getMyRegisteredEvents = async(req, res)=>{
     try {
         const {id} = req.params;
-        const events = await RSVP.find({userId: id}).populate("eventId", "title date");
+        const events = await RSVP.find({userId: id}).populate("eventId", "title date isCanceled");
     
         return res.status(200).json({
             message: 'success',
@@ -411,47 +444,69 @@ const sendInvite = (initialMailOptions, inviteOptions)=>{
 
 }
 
-const testCalendarInvite = async(req, res)=>{
+const cancelEvent = async(req, res)=>{
     try {
+        const {id} = req.params;        
+        //Fetch event and populate attendee emails
+        const event = await Event.findById(id).populate("attendees._id", "email");
 
-        sendInvite(
-            {
-                from: process.env.MAILER_EMAIL,
-                to: "p.kishinyambwe@alustudent.com",
-                subject: "Test Calendar Invite 2",
+        event.isCanceled = true;
+        await event.save();
+
+        //Send email to all users in the attendees array
+        const attendees = event.attendees;
+
+        let mailOptions = {
+            from: process.env.MAILER_EMAIL,
+            subject: "Event Cancellation",
+        }
+
+        attendees.forEach(async attendee=>{
+            mailOptions.to = attendee._id.email;
+            mailOptions.html = eventCancellationTemplate(attendee.name, event),
+
+            sendEmail(mailOptions);
+        }
+        )
+
+        // Create an activity with message, path, type and user
+        const activity = await Activity.create(
+            [{
+                message: `Your event was canceled`,
+                path: `/alumni-events/${event._id}`,
+                type: "delete",
+                user: event.createdBy,
             },
-            [
-                new Date("2023-12-15T06:01:07.795Z"),
-                new Date("2023-12-15T08:01:07.795Z"),
-                "Test Event",
-                "This is a test event",
-                "Test Location",
-                "https://www.google.com",
-                "Test Organizer",
-                process.env.MAILER_EMAIL,
-                "p.kishinyambwe@alustudent.com",
-                "Pacifique Rubasha",
-
+            {
+                message: `You canceled an event`,
+                path: `/alumni-events/${event._id}`,
+                type: "delete",
+                user: "65769c2b60965b35130ab36d",
+            }
             ]
-        )          
-        
+        );
+
+
 
         return res.status(200).json({
             message: 'success',
+            data: {
+                event,
+            },
         });
 
-      } catch (error) {
+    } catch (error) {
         console.error(error);
         res.status(500).json({
             message: 'fail',
             data: {
-                message: error.message,
+            message: error.message,
             },
         });
-      }
-
+    }
 
 }
+
 
 module.exports = {
     createEvent,
@@ -464,6 +519,6 @@ module.exports = {
     registerForEvent,
     getMyEvents,
     getMyRegisteredEvents,
-    testCalendarInvite
+    cancelEvent
 
 }

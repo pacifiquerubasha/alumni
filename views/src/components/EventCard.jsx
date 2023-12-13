@@ -59,7 +59,12 @@ function EventCard({data, isApp}) {
                     </div>
                     
                     {data?.attendees?.some((attendee)=>attendee?._id === user?._id) ?
-                        <i className='fas fa-check-circle text-green text-xl'></i>
+                        <>
+                        {data.isCanceled ? 
+                            <i className='fas fa-times-circle text-red text-xl'></i> :
+                            <i className='fas fa-check-circle text-green text-xl'></i>
+                        }
+                        </>
                         :
                         <button onClick={registerEvent} className='main__btn border__btn font-400'>
                             {registering ? "..." : "RSVP"}

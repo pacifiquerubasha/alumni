@@ -5,7 +5,7 @@ import { images } from '../utils/images';
 import { NavLink } from 'react-router-dom';
 import Footer from '../components/Footer';
 import EventCard from '../components/EventCard';
-import { getEvents } from '../services/apis';
+import { getEvents, getUpcomingEvents } from '../services/apis';
 
 function Home(props) {
 
@@ -74,7 +74,9 @@ function Home(props) {
     useEffect(()=>{
         const fetchEvents = async()=>{
             setLoading(true)
-            const events = await getEvents();
+            const events = await getUpcomingEvents();
+
+            console.log(events);
 
             const upcoming = events?.data?.events.filter(event=>new Date(event.date) >= new Date());
             setUpcomingEvents(upcoming);
@@ -211,12 +213,13 @@ function Home(props) {
                     </div>
                 </section>
 
+                {upcomingEvents?.length > 0 &&
                 <section className='flex flex-col py-5 items-center'>
                     <div className='w-3/4 flex items-center justify-between mb-4'>
                         <h3 className="section__title">Upcoming Events</h3>
-                        <NavLink to="/" className="flex items-center gap-1 color-main text-xl">More events <i className='fas fa-arrow-right'></i></NavLink>
+                        {upcomingEvents.length > 3 && <NavLink to="/" className="flex items-center gap-1 color-main text-xl">More events <i className='fas fa-arrow-right'></i></NavLink>}
                     </div>
-                    <div className='flex w-3/4 mx-auto justify-between'>
+                    <div className='flex w-3/4 mx-auto gap-3'>
                         
                         {upcomingEvents?.map((event, i)=>(
                             <div key={event._id} className='w-3/10'>
@@ -226,7 +229,7 @@ function Home(props) {
 
 
                     </div>
-                </section>
+                </section>}
 
 
             </main>

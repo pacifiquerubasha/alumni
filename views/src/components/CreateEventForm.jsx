@@ -120,7 +120,7 @@ function CreateEventForm({eventFormData, setEventFormData, isEdit}) {
                     <input type="text" id="title" name="title" value={eventFormData.title} placeholder="Event title" onChange={handleChange} required/>
                 </div>
                 <div className="form__group">
-                    <label htmlFor="title">Event Description</label>
+                    <label htmlFor="description">Event Description</label>
                     <textarea id="description" rows={10} name="description" value={eventFormData.description} placeholder="Event description" onChange={handleChange} required/>
                 </div>
                 <div className="form__group">
@@ -183,11 +183,11 @@ function CreateEventForm({eventFormData, setEventFormData, isEdit}) {
                 </div>
                 <div className="form__group">
                     <label htmlFor="sponsors">Sponsors(Eg. MCF, Ministry of Youth)</label>
-                    <input type="text" id="sponsors" name="sponsors" value={eventFormData.sponsors} placeholder="Event sponsors" onChange={handleChangeCommaSeparated} required/>
+                    <input type="text" id="sponsors" name="sponsors" value={eventFormData.sponsors?.join(",")} placeholder="Event sponsors" onChange={handleChangeCommaSeparated} required/>
                 </div>
                 <div className="form__group">
                     <label htmlFor="tags">Tags(Eg. swe, wellness)</label>
-                    <input type="text" id="tags" name="tags" value={eventFormData.tags} placeholder="Event tags" onChange={handleChangeCommaSeparated} required/>
+                    <input type="text" id="tags" name="tags" value={eventFormData.tags?.join(",")} placeholder="Event tags" onChange={handleChangeCommaSeparated} required/>
                 </div>
                 <div className="form__group">
                     <label htmlFor="capacity">Capacity</label>

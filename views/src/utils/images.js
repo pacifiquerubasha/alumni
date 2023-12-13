@@ -15,6 +15,8 @@ import startChat from  "../assets/vectors/startChat.svg"
 import chatShare from  "../assets/vectors/chatShare.svg"
 import connect from  "../assets/vectors/connect.svg"
 
+import empty1 from "../assets/vectors/empty1.svg"
+
 export const images = {
     hero,
     phone,
@@ -29,5 +31,6 @@ export const images = {
     user2,
     startChat,
     chatShare,
-    connect
+    connect,
+    empty1
 }

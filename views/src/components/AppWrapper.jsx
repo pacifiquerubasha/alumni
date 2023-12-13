@@ -36,11 +36,10 @@ function AppWrapper({title, children}) {
         setLoadingUser(true)
         try {
         const token = localStorage.getItem("alumneersToken");
-        console.log("tokkkkkk", token)
+
         const response = await getCurrentUser(token);
         if(response.data.user){
             setUser(response.data.user)
-            console.log(response.data.user)
             // Check if user is manager
             if(response?.data?.user.role === "manager"){
                 setMenuItems([
@@ -50,8 +49,22 @@ function AppWrapper({title, children}) {
                         link:"/alumni",
                         icon:"fas fa-users"
                     },
+                    {
+                        name:"News",
+                        link:"/news",
+                        icon:"fas fa-newspaper"
+                    },
                 ])
+
+
             }
+            else{
+                //Check if path has /news or /alumni. If it has redirect to /dashboard
+                if(window.location.pathname.includes("/news") || window.location.pathname.includes("/alumni/")){
+                    navigate("/dashboard")
+                }
+            }
+            
         }
 
         else{

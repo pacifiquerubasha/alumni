@@ -5,6 +5,10 @@ import {BrowserRouter, Routes, Route, Outlet} from "react-router-dom"
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 import Home from './views/Home';
 import Events from './views/Events';
 import EventDetails from './views/EventDetails';
@@ -21,6 +25,8 @@ import AlumniEvents from './views/app/AlumniEvents';
 import ViewEvent from './views/app/ViewEvent';
 import Profile from './views/app/Profile';
 import ViewAlumni from './views/app/ViewAlumni';
+import News from './views/app/News';
+import ViewNews from './views/app/ViewNews';
 
 
 function App() {
@@ -95,6 +101,9 @@ function App() {
 
                   <Route path="alumni" element={<Alumnis/>}/>
                   <Route path="alumni/:id" element={<ViewAlumni/>}/>
+
+                  <Route path="news" element={<News/>}/>
+                  <Route path="news/:id" element={<ViewNews/>}/>
 
                   <Route path="profile" element={<Profile/>}/>
                 </Route>

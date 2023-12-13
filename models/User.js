@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema({
   },
   middleName: {
     type: String,
-    required: true,
   },
   lastName: {
     type: String,

@@ -15,6 +15,12 @@ export async function createEvent(data){
       }).then(response => response.data)
 }
 
+export async function cancelEvent(id){
+    const url = `${API_URL}/api/events/cancel/${id}`
+    return axios.put(url).then(response => response.data)
+
+}
+
 export async function updateEvent(data, id){
     const url = `${API_URL}/api/events/${id}`
     return axios.put(url, data, {
@@ -31,6 +37,11 @@ export async function deleteEvent(id){
 
 export async function getEvents() {
     const url = `${API_URL}/api/events/`
+    return axios.get(url).then(response => response.data)
+}
+
+export async function getUpcomingEvents(){
+    const url = `${API_URL}/api/events/upcoming`
     return axios.get(url).then(response => response.data)
 }
 
@@ -117,4 +128,47 @@ export async function changeProfilePicture(id, data){
           'Content-Type': 'multipart/form-data', 
         },
       }).then(response => response.data)
+}
+
+export async function getRecentActivities(id){
+    const url = `${API_URL}/api/activities/recent/${id}`
+    return axios.get(url).then(response => response.data)
+}
+
+export async function getAllUserActivities(id){
+    const url = `${API_URL}/api/activities/user/${id}`
+    return axios.get(url).then(response => response.data)
+}
+
+export async function createNews(data){
+    const url = `${API_URL}/api/news/`
+    return axios.post(url, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data', 
+        },
+      }).then(response => response.data)
+}
+
+export async function updateNews(data, id){
+    const url = `${API_URL}/api/news/${id}`
+    return axios.put(url, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data', 
+        },
+      }).then(response => response.data)
+}
+
+export async function deleteNews(id){
+    const url = `${API_URL}/api/news/${id}`
+    return axios.delete(url).then(response => response.data)
+}
+
+export async function getAllNews(){
+    const url = `${API_URL}/api/news/`
+    return axios.get(url).then(response => response.data)
+}
+
+export async function getNewsById(id){
+    const url = `${API_URL}/api/news/${id}`
+    return axios.get(url).then(response => response.data)
 }

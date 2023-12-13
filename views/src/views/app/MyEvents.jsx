@@ -31,8 +31,13 @@ function MyEvents(props) {
             value: myEvents.reduce((acc, curr)=>acc+curr.totalRSVPS, 0)
         },
         {
-            title: 'Total Attendees',
-            value: myEvents.reduce((acc, curr)=>acc+curr?.attendees?.length, 0)
+            title: 'Canceled',
+            value: myEvents.reduce((acc, curr)=>{
+                if(curr.isCanceled){
+                    return acc+1
+                }
+                return acc
+            }, 0)
         }
     ]
 
@@ -64,9 +69,8 @@ function MyEvents(props) {
             setFetchingRSVPs(true)
             let response = await getMyRegisteredEvents(user._id);
             if(response?.data?.events){
-                const data = response.data.events.sort((a, b)=>new Date(b.date) - new Date(a.date))
+                const data = response.data.events.sort((a, b)=>new Date(b?.eventId?.date) - new Date(a?.eventId?.date))
                 setMyRSVPs(data)
-                console.log(response.data.events)
             }
         } catch (error) {
             console.log(error)
@@ -124,9 +128,12 @@ function MyEvents(props) {
                                         <span>{event.location}</span>
                                         <span>{formatDate(event.date)}</span>
                                     </div>
-                                    <div className='my__event--label mt-1 text-green'>
+                                    <div className='flex items-center justify-between'>
+                                        <div className='my__event--label mt-1 text-green'>
+                                            {new Date((event.date).split(" ")[0]) - new Date() > 0 ? <span className='label__green'>UPCOMING</span> : <span className='label__red'>PAST</span>}
+                                        </div>
 
-                                        {new Date((event.date).split(" ")[0]) - new Date() > 0 ? <span className='label__green'>UPCOMING</span> : <span className='label__red'>PAST</span>}
+                                        {event.isCanceled && <span className='text-red'>Canceled</span>}
 
                                     </div>
                                 </div>
@@ -151,7 +158,10 @@ function MyEvents(props) {
                         <div className="flex flex-col gap-2">
                             {myRSVPs.map((event, i)=>(
                                 <NavLink to={`/alumni-events/${event?.eventId?._id}`} className={`w-full border p-1/2 rounded-sm border flex gap-2 items-center justify-between my__upcoming--event ${new Date((event?.eventId?.date)?.split(" ")[0]) - new Date() < 0  && "my__past--event"}`}>
-                                    <h5 className='text-sm ellipsis'>{event?.eventId?.title || ""}</h5>                                        
+                                    <div className='flex items-center gap-1'>
+                                        <i className={`fas fa-${event.eventId?.isCanceled ? "times":"check"}-circle text-${event.eventId?.isCanceled?"red":"green"}`}></i>
+                                        <h5 className='text-sm ellipsis'>{event?.eventId?.title || ""}</h5>                                   
+                                    </div>
                                     <span>{new Date(event?.eventId?.date).toLocaleDateString()}</span>
                                 </NavLink>
                             ))
