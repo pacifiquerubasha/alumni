@@ -15,7 +15,7 @@ function Auth(props) {
     return (
         <div className='auth__page relative h-screen w-full flex items-center'>
             <div className='w-4/5 flex items-center mx-auto h-full'>
-                <div className='flex flex-col w-1/2 justify-center justify-around h-full'>
+                <div className='flex auth__left flex-col w-1/2 justify-center justify-around h-full'>
                     <h3 className='section__title font-500 color-darkblue'>
                     Discover exciting alumni events and networking opportunities
                     </h3>
@@ -35,10 +35,10 @@ function Auth(props) {
                     </div>
 
                 </div>
-                <div className='flex-1 flex justify-center'>
-                        {isLogin ?<LoginForm/> : 
+                <div className='flex-1 flex justify-center auth__forms'>
+                        {isLogin ?<LoginForm setIsLogin={setIsLogin}/> : 
                             !emailVerification ?
-                            <SignupForm setEmailVerification={setEmailVerification}/>
+                            <SignupForm setEmailVerification={setEmailVerification} setIsLogin={setIsLogin}/>
                             :
                             <VerifyEmail email={emailVerification} setIsLogin={setIsLogin}/>
                         }                    

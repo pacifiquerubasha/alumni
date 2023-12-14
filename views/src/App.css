@@ -301,7 +301,7 @@ main{
 }
 
 .nav__links a.active{
-  color: var(--color-main) !important;
+  color: var(--color-main);
   position: relative;
   isolation: isolate;
 }
@@ -531,6 +531,10 @@ select{
 .alumni__card--more:hover{
   color: var(--color-main);
   opacity: 1;
+}
+
+.stats__card {
+  width: 20rem;
 }
 
 .stats__card--icon{

@@ -1,0 +1,750 @@
+.hamburger {
+    margin: 0 auto;
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+
+
+.hamburger .bar {
+    padding: 0;
+    width: 30px;
+    height: 4px;
+    background-color: var(--color-main);
+    display: block;
+    border-radius: 4px;
+    transition: all 0.4s ease-in-out;
+    position: absolute; 
+}
+
+
+.bar1 {
+    top: 0;
+}
+
+.bar2,
+.bar3 {
+    top: 13.5px;
+}
+
+.bar3 {
+    right: 0;
+}
+
+.bar4 {
+    bottom: 0;
+}
+
+.visuallyHidden {
+    position: absolute; 
+    overflow: hidden; 
+    clip: rect(0 0 0 0); 
+    height: 1px; width: 1px; 
+    margin: -1px; padding: 0; border: 0; 
+}
+
+
+/* HAMBURGER 1 */
+.checkbox1:checked + label > .hamburger1 > .bar1{
+    transform: rotate(45deg);
+    transform-origin: 5%;
+    width: 41px;
+}
+
+.checkbox1:checked + label > .hamburger1 > .bar2 {
+    transform: translateX(-40px);
+    background-color: transparent !important;
+}
+
+.checkbox1:checked + label > .hamburger1 > .bar3 {
+    transform: translateX(40px);
+    background-color: transparent !important;
+
+}
+
+.checkbox1:checked + label > .hamburger1 > .bar4 {
+    transform-origin: 5%;
+    transform: rotate(-45deg);
+    width: 41px;
+}
+
+
+.toggleContainer{
+    padding-left: 0 !important;
+    display: none !important;
+}
+
+main{
+    overflow: hidden;
+}
+
+.redirect__link{display: none;}
+
+
+@media only screen and (max-width:1660px){
+    .contact__content{
+        width: 85% !important;
+    }
+
+    .my__events-repeated{
+        width: 100% !important;
+    }
+
+}
+@media only screen and (max-width:1440px){
+    .hero h1,
+    .events__banner h1{font-size: 3.5rem;}
+
+    section>div.w-3\/4,
+    .footer__top{width: 90% !important;}
+
+    section>div.w-3\/5{
+        width: 50rem;
+        max-width: 90%;
+    }
+
+    .section__subtitle{font-size: 24px !important;}
+    .section__title{font-size: 2rem;}
+    .main__btn,
+    .border__btn{font-size: 1rem !important;}
+
+    .app__menu--item{gap: 1rem !important;}
+    .app__menu--item i{width: 1rem;}
+
+    
+}
+
+@media only screen and (max-width:1280px){
+    .insight__repeated i{
+        font-size: 2.5rem;
+    }
+
+    .insight__repeated h4{font-size: 1.75rem;}
+
+    .home__card{
+        width: 20rem !important;
+        max-width: 100%;
+    }
+
+    .card__repeated h4{font-size: 18px;}
+    .card__repeated img{height: 10rem;}
+    .footer__top{justify-content: space-between !important;}
+
+    .ev__card{
+        width: 20rem !important;
+    }
+
+    .auth__page>div{
+        width: 90%;
+    }
+
+    .app__header .toggleContainer{
+        display: flex !important;
+    }
+
+    .app__logo{display: none;}
+    .app__wrapper:has(.checkbox1:checked) .app__sidebar{
+        transform: translateX(0);
+    }
+
+    .app__sidebar{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 25rem !important;
+        max-width: 75%;
+        height: 100vh;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.16);
+        padding: 5rem 0;
+        overflow: hidden;
+        transition: all ease-in-out .5s;
+        z-index: 998;
+        background-color: white;
+        transform: translateX(-25rem);
+    }
+
+    .app__header{
+        padding-inline: 2rem !important;
+        height: 10vh;
+    }
+    .app__body{
+        padding-top: 10vh;
+    }
+
+    .event__ticket h1{
+        font-size: 1.5rem;
+    }
+
+    .event__ticket{
+        width: 100% !important;
+        border-radius: 0 !important;
+        position: relative !important;
+
+    }
+
+    .view__events{
+        height: auto !important;
+    }
+
+    .event__details{
+        padding: 5rem 0 !important;
+    }
+
+    .qrcode__section,
+    .event__details--right{
+        width: 40%;
+    }
+
+    .event__details--left{
+        width: 60% !important;
+        flex-direction: unset !important;
+    }
+
+    .my__events-title{
+        margin-bottom: 2rem !important;
+    }
+
+
+
+}
+
+@media only screen and (max-width:1024px){
+    .hero h1,
+    .events__banner h1{font-size: 2.5rem;}
+    .hero p{font-size: 18px;}
+
+    .section__title{font-size: 1.75rem;}
+    .section__subtitle{font-size: 18px !important;}
+    
+    .events__core--side{display: none;}
+    .events__middle{width: 100% !important;}
+    .search__event{
+        width: 35rem !important;
+        max-width: 100% !important;
+    }
+
+    .contact__information {
+        transform: translate(0, 0);
+    }
+    .contact__page .contact__form input, 
+    .contact__page .contact__form textarea{
+        width: 100%;
+    }
+    .contact__content{gap: 2rem;}
+    .contact__information{
+        padding-inline: 1.5rem !important;
+        gap: 2rem !important;
+        font-size: 90%;
+    }
+    .contact__information i,
+    .contact__information h5{font-size: 1.25rem !important;}
+
+    .auth__left{display: none !important;}
+    .auth__page::before,
+    .auth__page::after{
+        width: 50% !important;
+    }
+    .auth__page::after{
+        left: 50%;
+    }
+    .redirect__link{display: flex;}
+    
+    .dash__row{
+        flex-wrap: wrap;
+        gap: 2rem !important;
+    }
+
+    .dash__news,
+    .dash__events{
+        width: 100% !important;
+        flex: unset !important;
+    }
+
+    .dash__upcoming--events,
+    .dash__activities{
+        width: 30rem !important;
+        max-width: 100% !important;
+    }
+
+    .dash__upcoming--events{padding-top: 0 !important;}
+
+    .news__banner--content{
+        height: 15rem;
+    }
+
+    .news__banner--content h3{font-size: 1.5rem !important;}
+    
+    .my__events--stat {
+        padding: 1rem !important;
+    }
+
+    .events__container:has(.app__events){
+        margin-top: 2rem !important;
+    }
+
+    .app__events .card__repeated>div{
+        padding-inline: 1rem !important;
+    }
+
+    .event__details{flex-wrap: wrap;}
+
+    .event__details--right{
+        width: 100%;
+    }
+
+
+    .event__details--left{
+        width: 100% !important;
+        flex-direction: unset !important;
+    }
+
+    .event__ticket{
+        flex-direction: column;
+    }
+
+    .qrcode__section{
+            width: 30rem;
+            max-width: 100%;
+    }
+
+    .organisor__details{
+        max-width: 100%;
+    }
+
+    .my__events--container{
+        flex-direction: column;
+    }
+
+    .my__events--container>div{
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .profile__update--container{
+        flex-direction: column;
+    }
+
+    .profile__form{
+        width: 100%;
+    }
+
+    .profile__starter{
+        flex-direction: column;
+        align-items: center !important;
+        position: relative !important;
+        left: unset;
+        transform: translateX(0);
+
+    }
+
+    .profile__page--img{
+        transform: translate(0) !important;
+    }
+    .profile__starter--left{
+        flex-direction: column;
+        align-items: center !important;
+    }
+
+    .profile__hero{
+        height: auto !important;
+        justify-content: center !important;
+        
+    }
+    .profile__user--info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile__hero--banner{
+        position: absolute;
+    }
+
+    .stats__card {
+        padding: 0 !important;
+    }
+
+    .stat__cards--list{
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .stats__card h4{
+        font-size: 1.5rem !important;
+    }
+    .stats__card--icon {
+        width: 3rem;
+        height: 3rem;
+    }
+    .stats__card--icon i{font-size: 1.25rem;}
+    .stats__card{
+        width: 45%;
+    }
+
+
+}
+
+@media only screen and (max-width:768px){
+
+
+    .site__header .toggleContainer{
+        display: flex !important;
+    }
+
+    .site__header{
+        justify-content: space-between;
+        transition: all ease-in-out .2s;
+        align-items: center;
+    }
+
+
+    .site__header nav {
+        position: absolute;
+        top: 99%;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.16);
+        height: 0;
+        padding: 0 5%;
+        overflow: hidden;
+        transition: all ease-in-out .5s;
+        background-color: var(--color-main);
+    }
+
+    .site__header nav a{color: white;}
+    .site__header nav a.active{
+        color: var(--color-darkblue) !important;
+        border-color: var(--color-darkblue);
+        border-width: 2px;
+        font-weight: 700;
+    }
+
+    .site__header nav li a{
+        display: block;
+        width: 10rem;
+        border: 1px solid rgba(255, 255, 255, 0.217);
+        padding: .25rem 1rem;
+        border-radius: 5px;
+    }
+
+    .site__header:has(.checkbox1:checked){
+        background-color: white;
+    }
+
+    .site__header:has(.checkbox1:checked) nav{
+        padding: 5rem 5%;
+        height: 100vh;
+    }
+
+
+    .site__header>nav>ul {
+        display: flex;
+        gap: 2rem;
+        font-size: 1.25rem;
+        height: 100%;
+        flex-direction: column;
+    }
+
+    .toggleContainer {
+        overflow: hidden;
+        width: 2rem;
+        justify-content: flex-end;
+        padding: .25rem 0;
+    }
+
+    .site__header{
+        padding: 1rem 2rem !important;
+        
+    }
+    .site__logo{font-size: 1.5rem !important;}
+
+    .how__works{flex-wrap: wrap;}
+    .how__repeated{
+        width: 20rem;
+        max-width: 90%;
+    }
+
+    .section__cta>div{
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .section__celebrate{width: 90%;}
+    .row__content{
+        padding-left: 0 !important;
+        margin-top: 5rem;
+    }
+
+    .py-5{
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .platform__insights,
+    .home__upc--events{
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    .home__upc--events{
+        justify-content: center;
+    }
+    .home__upc--title{
+        text-align: center;
+        width: 100%;
+    }
+
+    .home__upc--more{font-size: 1.15rem;}
+
+    .insight__repeated{
+        width: 45%;
+    }
+
+    .event__categories{
+        flex-direction: column-reverse;
+    }
+
+    .event__categories>div{
+        width: 100%;
+    }
+    .footer__top{flex-direction: column;}
+    .footer__bottom{font-size: 0.75rem;}
+
+    .hero h1{
+        font-size: 2rem;
+        text-align: left;
+    }
+    .hero p{text-align: left;}
+    .main__btn{padding-inline: .5rem !important;}
+    .hero .container{align-items: flex-start !important;}
+    .hero .container>div{margin-top: 2rem;}
+    .how__repeated h4{
+        margin-bottom: 0rem;
+    }
+
+    .platform__insights{margin-top: 2rem !important;}
+
+    .events__banner{
+        height: 20vh;
+    }
+    .events__banner h1{font-size: 2rem;}
+    .filters{display: none !important;}
+    .alumnis .filters{
+        display: flex !important;
+    }
+    .filters__container{width: 100% !important;}
+
+    .contact__content{
+        position: relative !important;
+        flex-direction: column;
+        align-items: center;
+    }
+    .contact__page{        
+        height: auto !important;
+        margin-bottom: 5rem;
+        margin-top: 2rem;
+    }
+
+    .contact__page h1{
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .contact__page .contact__form{
+        padding: 0 !important;
+        box-shadow: none !important;
+        margin-bottom: 2rem;
+    }
+
+    .contact__page .contact__form button{width: 100%;}
+
+    .contact__page .contact__form,
+    .contact__information{
+        margin-inline: auto;
+        width: 40rem !important;
+        max-width: 100%;
+    }
+
+    .contact__bg{display: none;}
+
+    .auth__forms{
+        width: 100% !important;
+    }
+
+    .auth__page{
+        height: auto !important;
+        min-height: 100vh;
+    }
+
+    .signup__form{
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .news__banner--content{
+        padding-inline: 1.5rem !important;
+    }
+
+    .news__banner--content h3{font-size: 1.15rem !important;}
+    .quick__actions>div{
+        flex-wrap: wrap;
+    }
+
+    .dash__events--list{
+        flex-wrap: wrap;
+    }
+
+    .my__events--stat{
+        width: 100% !important;
+    }
+
+    .site__events-det{
+        padding-inline: 5% !important;
+    }
+
+    .modal__content{
+        max-width: 90%;
+        max-height: 90%;
+        overflow-y: auto;
+    }
+
+    .modal__content h3{
+        font-size: 1.5rem;
+    }
+
+    .modal__content p{
+        margin-bottom: 1rem !important;
+        font-size: .85rem;
+    }
+
+    .modal__content .contact__form{
+        padding-inline: 0 !important;
+        margin-top: 1.5rem;
+    }
+
+    .organisor__details{
+        padding: 1rem !important;
+    }
+
+    .my__stats{
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .my__event--row{
+        flex-direction: column;
+    }
+
+    .profile__form div:has(>.form__group),
+    .edit__alumni div:has(>.form__group){
+        flex-direction: column;
+    }
+
+    .profile__user--info h5{font-size: 1.5rem;}
+    .profile__starter--left{gap: 1.5rem !important;}
+
+    .app__field:has(.profile__hero),
+    .profile__starter{
+        padding-inline: 0 !important;
+    }
+
+    .profile__form form button{
+        width: 100%;
+    }
+
+    .stats__card{
+        width: 100%;
+    }
+    .delete__btn{display: none !important;}
+    .delete__btn--responsive{display: block !important;}
+
+}
+
+
+@media only screen and (max-width:480px){
+    .insight__repeated{
+        width: 100%;
+    }
+
+    .insight__repeated i{
+        width: 3rem;
+    }
+
+    .section__cta>.container{margin-bottom: 1rem;}
+    .check__rounded ~ div{
+        font-size: 1.15rem !important;
+    }
+
+    .check__rounded {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .events__container{
+        justify-content: center !important;
+    }
+    .ev__card{margin-bottom: 2rem !important;}
+    .about__us::before{
+        transform: translateX(0);
+        opacity: 0.15;
+    }
+
+    .auth__form a{
+        font-size: 1.15rem;
+    }
+
+    .auth__form h1{
+        font-size: 1.25rem;
+    }
+
+    .auth__form p{margin-bottom: 0.5rem;}
+
+    .detail__row,
+    .event__detail--actions{
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .event__detail--actions{gap: 2rem;}
+
+    .detail__row .event__category{
+        padding: 1rem 0 !important;
+        text-align: left !important;
+    }
+
+    .detail__row h1{font-size: 1.25rem;}
+    .ticket__left{padding-inline: 1rem !important;}
+    .event__detail--buttons{
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .event__details--left{padding-right: 0 !important;}
+    .my__events--container{padding-top: 0 !important;}
+    .my__events--container>div{
+        padding-inline: 1rem !important;
+    }
+
+    .btn__icon{
+        display: block !important;
+    }
+    .btn__text{
+        display: none;
+    }
+
+    .react-calendar{padding: 0 !important;}
+    .profile__page--img{
+        width: 10rem;
+        height: 10rem;
+    }
+
+    .profile__menu{width: 100%;}
+    .edit__alumni .section__title{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .edit__alumni p{
+        width: 100% !important;
+    }
+}

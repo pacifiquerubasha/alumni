@@ -3,10 +3,10 @@ import React from 'react';
 function Footer(props) {
     return (
         <footer className='flex flex-col items-center pt-5 pb-3'>
-            <div className="w-3/4 footer__top flex pb-2 flex justify-around">
+            <div className="w-3/4 footer__top flex pb-2 flex justify-around gap-2">
                 <div>
                     <a className='text-3xl font-700 logo__gradient'>ALUmineers</a>
-                    <p>Our Moto Here</p>
+                    <p>Your Alumni Events Platform</p>
                 </div>
                 <div>
                     <h3>Get in touch</h3>
@@ -21,9 +21,10 @@ function Footer(props) {
 
 
             </div>
-            <div className='w-3/4 text-center pt-2'>
-                Copyright &copy; 2023 Your Alumni Connection Platform. All Rights Reserved.
+            <div className='w-3/4 text-center pt-2 footer__bottom'>
+                Copyright &copy; 2023<span> ALUmineers. All Rights Reserved.</span> 
             </div>
+            
                         
         </footer>
     );

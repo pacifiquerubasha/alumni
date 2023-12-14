@@ -135,10 +135,10 @@ function Dashboard(props) {
         <AppWrapper title="DASHBOARD">
             <div className='flex flex-col'>
 
-                <div className='flex gap-3'>
-                    <div className='w-7/10 flex flex-col gap-2'>
+                <div className='flex gap-3 dash__row'>
+                    <div className='w-7/10 dash__news flex flex-col gap-2'>
                         <div className='flex items-center justify-between'>
-                            <h2 className='font-400'><span className='text-lg opacity-5'>Welcome Back,</span><br/><span className='font-600 text-xl'>{user?.firstName} {user?.lastName}</span></h2>
+                            <h2 className='font-400 '><span className='text-lg opacity-5'>Welcome Back,</span><br/><span className='font-600 text-xl'>{user?.firstName} {user?.lastName}</span></h2>
                         </div>
                         {loading ?
 
@@ -166,8 +166,8 @@ function Dashboard(props) {
                                                 <div className='news__banner isolate flex rounded-lg overflow-hidden relative'>
                                                     <img src={slide.image ? `${API_URL}/images/${slide.image}` : images.celebrate} alt="" className='news__banner--img cover' />
                                                     <div className='news__banner--content flex w-full  flex-col items-start justify-center px-3'>
-                                                        <h3 className='text-white text-2xl'>{slide.title}</h3>
-                                                        <p className='text-white text-left'>
+                                                        <h3 className='text-white text-2xl text-left'>{slide.title}</h3>
+                                                        <p className='text-white text-left ellipsis-3'>
                                                             {slide.description}
                                                         </p>
                                                         <a href={slide.link} target='_blank' className='mt-2'><button className="main__btn p-1/2 px-3">Visit</button></a>
@@ -184,7 +184,7 @@ function Dashboard(props) {
                         }
                         
                     </div>
-                    <div className='w-1/4 pt-3'>
+                    <div className='w-1/4 dash__upcoming--events pt-3'>
                         <h3 className='font-500 mb-2'>Upcomimg Events</h3>
                         {
                             loadingUpcoming ?
@@ -228,8 +228,8 @@ function Dashboard(props) {
                     </div>
                 </div>
 
-                <div className='flex gap-3 mt-5'>
-                    <div className='flex-1'>
+                <div className='flex gap-3 mt-5 dash__row'>
+                    <div className='flex-1 dash__events'>
                         
                         <div>
                             <h5 className="dash__title">Events</h5>
@@ -242,7 +242,7 @@ function Dashboard(props) {
                                     ))}
                                 </div>
                                 :
-                                <div className='flex mt-1 gap-2'>
+                                <div className='flex mt-1 gap-2 dash__events--list'>
                                     {stats.map((stat, i)=>(
                                         <div className={`my__events--stat overflow-hidden py-2 ev__stat--${i} w-3/10 flex flex-col items-center justify-center`}>
                                             <div className='text-2xl font-500'>{stat.value}</div>
@@ -255,7 +255,7 @@ function Dashboard(props) {
                         </div>
                         
                     </div>
-                    <div className='w-1/4 flex flex-col'>
+                    <div className='w-1/4 flex flex-col dash__activities'>
                         <h3 className='font-500 mb-2'>User Activity</h3>
                         {
                             loadingActivities ?

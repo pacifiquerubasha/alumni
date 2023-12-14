@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { images } from '../utils/images';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { formatDate } from '../utils/utils';
 import { API_URL, handleRegister } from '../services/apis';
 import { AppContext } from '../AppContext';
@@ -8,10 +8,16 @@ import { AppContext } from '../AppContext';
 function EventCard({data, isApp}) {
 
     const {user} = useContext(AppContext);
+    const navigate = useNavigate();
 
     const [registering, setRegistering] = useState(false);
     
     const registerEvent = async()=>{
+        if(!user){
+            navigate("/login")
+            return;
+        }
+        
         try {
             setRegistering(true);
             let res = await handleRegister({eventId: data._id, userId: user._id });

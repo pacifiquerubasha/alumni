@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { How_It_Works } from '../utils/content';
 import { images } from '../utils/images';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import EventCard from '../components/EventCard';
 import { getEvents, getUpcomingEvents } from '../services/apis';
@@ -89,6 +89,8 @@ function Home(props) {
 
     }, [])
 
+    const navigate = useNavigate();
+
 
     return (
         <>
@@ -102,8 +104,8 @@ function Home(props) {
                         <p className='text-xl'>Connecting alumni, forging futures. Join our vibrant community to reconnect, grow, and create lasting memories.</p>
 
                         <div className="flex items-center gap-5 mt-5">
-                            <button className='px-2 main__btn text-xl font-500'>Explore Events</button>
-                            <button className='px-2 main__btn border__btn text-xl font-500'>Join Us</button>
+                            <button onClick={()=>navigate("/events")} className='px-2 main__btn text-xl font-500'>Explore Events</button>
+                            <button onClick={()=>navigate("/login")} className='px-2 main__btn border__btn text-xl font-500'>Join Us</button>
                         </div>
                      
 
@@ -134,7 +136,7 @@ function Home(props) {
 
                 <section className='py-5 flex flex-col gap-1 items-center'>
                     <h3 className="section__title"> Our Objectives </h3>
-                    <p className="section__subtitle">
+                    <p className="section__subtitle text-center px-1">
                         Our Commitment to You: Unlocking Opportunities, Cultivating Connections, and Nurturing Memories.
                     </p>
 
@@ -151,27 +153,27 @@ function Home(props) {
 
                 </section>
 
-                <section className='py-5 flex'>
+                <section className='py-5 flex section__cta'>
                     <div className="container mb-5 w-3/4 flex mx-auto items-center">
                         <div className='flex-1 section__celebrate relative'>
                             <img src={images.celebrate} alt="" className='rounded-lg' />
                         </div>
                         
-                        <div className='flex-1 pl-3'>
+                        <div className='flex-1 pl-3 row__content'>
                             <h3 className="section__title mb-2">{How_It_Works.title}</h3>
                             <p className='mb-3'>
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit quaerat error corporis reiciendis, iste vero obcaecati fugit pariatur accusamus quidem dolor tempore consequatur voluptas non, totam ipsa placeat tempora tenetur illo aperiam quasi assumenda reprehenderit! Molestiae quidem quas quis in placeat harum, mollitia optio sit aperiam maxime laudantium eveniet repellat.
                             </p>
-                            <button className='px-2 main__btn text-lg font-500'>Explore Events</button>
+                            <button onClick={()=>navigate("/events")} className='px-2 main__btn text-lg font-500'>Explore Events</button>
                         </div>
                     </div>
                 </section>
 
                 <section className='py-5 flex flex-col gap-1 items-center'>
                     <h3 className="section__title"> Platform Insights </h3>
-                    <div className="flex w-3/4 justify-between mt-5">
+                    <div className="flex w-3/4 justify-between mt-5 platform__insights">
                         {insights.map((insight, i)=>(
-                            <div className='flex items-center gap-1'>
+                            <div className='flex items-center gap-1 insight__repeated'>
                                 <i className={`${insight.icon} text-7xl logo__gradient`}></i>
                                 <div>
                                     <h4 className='text-4xl'>{insight.value}</h4>
@@ -184,7 +186,7 @@ function Home(props) {
                 </section>
 
                 <section className='py-5 flex'>
-                    <div className="container w-3/4 flex mx-auto items-center">
+                    <div className="container w-3/4 flex mx-auto items-center event__categories">
                         <div className='flex-1'>
                             <h3 className="section__title mb-2">Event categories</h3>
                             <ul className='flex flex-col gap-2'>
@@ -216,13 +218,13 @@ function Home(props) {
                 {upcomingEvents?.length > 0 &&
                 <section className='flex flex-col py-5 items-center'>
                     <div className='w-3/4 flex items-center justify-between mb-4'>
-                        <h3 className="section__title">Upcoming Events</h3>
-                        {upcomingEvents.length > 3 && <NavLink to="/" className="flex items-center gap-1 color-main text-xl">More events <i className='fas fa-arrow-right'></i></NavLink>}
+                        <h3 className={`section__title ${upcomingEvents.length < 3 && "home__upc--title"}`}>Upcoming Events</h3>
+                        {upcomingEvents.length > 3 && <NavLink to="/events" className="flex items-center gap-1 color-main text-xl home__upc--more">More events <i className='fas fa-arrow-right'></i></NavLink>}
                     </div>
-                    <div className='flex w-3/4 mx-auto gap-3'>
+                    <div className='flex w-3/4 mx-auto gap-3 home__upc--events'>
                         
                         {upcomingEvents?.map((event, i)=>(
-                            <div key={event._id} className='w-3/10'>
+                            <div key={event._id} className='w-3/10 home__card'>
                                 <EventCard data={event}/>
                             </div>
                         ))}

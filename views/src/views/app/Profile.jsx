@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import AppWrapper from '../../components/AppWrapper';
 import { images } from '../../utils/images';
 import { AppContext } from '../../AppContext';
@@ -140,6 +140,20 @@ function Profile(props) {
         setProfilePicture(e.target.files[0])
     }
 
+    const generalFormRef = useRef(null);
+    const passwordFormRef = useRef(null);
+
+    const handleChangeMenu = (isPasswordScreen)=>{
+        setIsPasswordScreen(isPasswordScreen);
+
+        if(isPasswordScreen){
+            generalFormRef.current?.scrollIntoView({behavior: "smooth"})
+        }else{
+            passwordFormRef.current?.scrollIntoView({behavior: "smooth"})
+        }
+    }
+
+
     const handleProfilePictureChange = async()=>{
         try {
             setChangingProfile(true)
@@ -166,9 +180,9 @@ function Profile(props) {
     return (
         <AppWrapper title="PROFILE">
             <section className="details__hero relative profile__hero relative flex">
-                <img src={images.banner} className='h-full cover' alt="" />
+                <img src={images.banner} className='h-full cover profile__hero--banner' alt="" />
                 <div className='profile__starter text-white py-2 flex justify-between items-end absolute w-3/4 px-2'>
-                    <div className='flex items-end gap-3'> 
+                    <div className='flex items-end gap-3 profile__starter--left'> 
                         <div className='profile__page--img overflow-hidden relative'>
                             <img src={` ${user?.profilePicture ? `${API_URL}/images/${user?.profilePicture}`: images.user}`} alt="" className='w-full h-full cover' />
                             <input type="file" id='changeProfileImage' onChange={handleProfileInputChange} hidden/>
@@ -181,7 +195,7 @@ function Profile(props) {
                             </div>
                             }
                         </div>
-                        <div>
+                        <div className='profile__user--info '>
                             <h5 className='text-2xl font-500'>{user?.firstName} {user?.lastName}</h5>
                             <div className='mb-1 opacity-7'><i className='fas fa-map-marker'></i>&nbsp;{user?.location || "No Location"}</div>
                             <div className='flex gap-1 items-center'>
@@ -207,13 +221,13 @@ function Profile(props) {
             </section>
 
             <section className='py-5 flex'>
-                <div className="w-full mx-auto items-start p-2 flex gap-5">
-                    <div className='bg-white flex flex-col gap-2 justify-between p-2 rounded-md'>
+                <div className="w-full mx-auto items-start p-2 flex gap-5 profile__update--container">
+                    <div className='bg-white flex flex-col gap-2 justify-between p-2 rounded-md profile__menu'>
                         <div>
                             <span className='opacity-5'>MENU</span>
                             <div className='flex flex-col gap-1 mt-2'>
-                                <div onClick={()=>setIsPasswordScreen(false)} className={`opacity-7 p-1/2 cursor-pointer rounded-sm ${!isPasswordScreen ? "current__tab":""} px-1`}>General Information</div>
-                                <div onClick={()=>setIsPasswordScreen(true)} className={`opacity-7 p-1/2 cursor-pointer rounded-sm ${isPasswordScreen ? "current__tab":""} px-1`}>Change Password</div>
+                                <div onClick={()=>handleChangeMenu(false)} className={`opacity-7 p-1/2 cursor-pointer rounded-sm ${!isPasswordScreen ? "current__tab":""} px-1`}>General Information</div>
+                                <div onClick={()=>handleChangeMenu(true)} className={`opacity-7 p-1/2 cursor-pointer rounded-sm ${isPasswordScreen ? "current__tab":""} px-1`}>Change Password</div>
                             </div>
                         </div>
                         <button onClick={()=>setOpenLogoutModal(true)} className='bg-main text-white p-1/2'>
@@ -223,13 +237,13 @@ function Profile(props) {
                     </div>
                     
                     {!isPasswordScreen ?
-                        <div className="flex-1">
+                        <div ref={generalFormRef} className="flex-1 profile__form">
                             <div className='flex items-center justify-between'>
-                                <h3 className='text-2xl font-500 opacity-5'>General Information</h3>
+                                <h3 className='section__subtitle font-500 opacity-5'>General Information</h3>
                                 {!isEditGeneral &&
                                 <button onClick={()=>setIsEditGeneral((prev)=>!prev)} className='border__btn main__btn flex items-center text-lg px-1'>
                                     <i className='fas fa-edit'></i>&nbsp;   
-                                    Edit                                 
+                                    <span className='btn__text'>Edit</span>                                 
                                 </button>}
                             </div>
                             <form onSubmit={handleUpdateUser} className='contact__form auth__form signup__form mt-3 w-full'>
@@ -292,9 +306,9 @@ function Profile(props) {
 
                         :
 
-                        <div className="flex-1">
+                        <div ref={passwordFormRef} className="flex-1 profile__form">
                             <div className='flex items-center justify-between'>
-                                <h3 className='text-2xl font-500 opacity-5'>Change Password</h3>                            
+                                <h3 className='section__subtitle font-500 opacity-5'>Change Password</h3>                            
                             </div>
                             <form onSubmit={handleChangePassword} className='contact__form auth__form signup__form mt-3 w-full'>
                                 {passwordChangeMessage.text && <div className={`text-center mb-1 w-1/2 rounded-sm message ${passwordChangeMessage.type === 'error' ? 'badge__error' : 'badge__success'}`}>{passwordChangeMessage.text}</div>}

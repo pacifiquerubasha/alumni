@@ -122,19 +122,19 @@ function ViewAlumni(props) {
                 </div>
             :
 
-            <div className=''>
+            <div className='edit__alumni'>
                 <div onClick={goBack} className="flex cursor-pointer gap-2 items-center mb-2">
                     <i className='fas fa-arrow-left text-2xl color-main'></i>
                     Back
                 </div>
                 <div className='flex justify-between'>
                     <div>
-                        <h3 className='text-2xl'>Edit Alumni - <span className='opacity-5 font-400'>{alumni.firstName} {alumni.lastName}</span></h3>
+                        <h3 className='section__title'>Edit Alumni - <span className='opacity-5 font-400'>{alumni.firstName} {alumni.lastName}</span></h3>
                         <p className='opacity-5 w-3/4'>
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab facere at consequatur aliquid. Quia explicabo magni ipsum sit hic placeat.
                         </p>
                     </div>
-                    <i onClick={setOpenDeleteModal} className='fas fa-trash text-3xl text-red cursor-pointer'></i>
+                    <i onClick={setOpenDeleteModal} className='fas fa-trash delete__btn text-3xl text-red cursor-pointer'></i>
                 </div>
 
                 <form onSubmit={handleUpdateUser} className='contact__form auth__form signup__form mt-3 w-full'>
@@ -182,14 +182,19 @@ function ViewAlumni(props) {
                             <input type="text" id="location" name="location" value={formFields?.location || ""} placeholder="Your address" onChange={handleChange}/>
                         </div>
                     </div>
-                    <button className='main__btn mt-1 px-5'>
-                        SAVE
-                        {updatingUser ?
-                        <div className="loading">
-                            <SubmitLoader/>
-                        </div> : ""
-                        }
-                    </button>
+                    <div className='flex items-center justify-between mt-1'>
+                        <i onClick={setOpenDeleteModal} className='fas fa-trash delete__btn--responsive hidden  text-3xl text-red cursor-pointer'></i>
+
+                        <button className='main__btn px-5'>
+                            SAVE
+                            {updatingUser ?
+                            <div className="loading">
+                                <SubmitLoader/>
+                            </div> : ""
+                            }
+                        </button>
+                        
+                    </div>
                 </form>
 
             </div>
@@ -201,7 +206,7 @@ function ViewAlumni(props) {
             >
                 <div className='p-2 flex flex-col items-center'>
                     <i className='fas fa-plane text-2xl opacity-5'></i>
-                    <p className='opacity-7 mt-1 text-lg'>Are you sure you want to delete <span className='font-600'>{alumni.firstName} {alumni.lastName}</span>?</p>
+                    <p className='opacity-7 mt-1 text-lg text-center'>Are you sure you want to delete <span className='font-600'>{alumni.firstName} {alumni.lastName}</span>?</p>
                     <div className='flex justify-end gap-5 mt-3'>
                         <button onClick={()=>setOpenDeleteModal(false)} className='border__btn btn__gray'>CANCEL</button>
                         <button onClick={handleDeleteUser} className={`main__btn ${deleting && "pr-3"}`}>

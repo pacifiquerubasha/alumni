@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
+import './Media.css'
+
 import {AppContext} from "./AppContext"
 import {BrowserRouter, Routes, Route, Outlet} from "react-router-dom"
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -27,6 +29,7 @@ import Profile from './views/app/Profile';
 import ViewAlumni from './views/app/ViewAlumni';
 import News from './views/app/News';
 import ViewNews from './views/app/ViewNews';
+import Error404 from './views/Error404'
 
 
 function App() {
@@ -82,7 +85,7 @@ function App() {
         <BrowserRouter>         
             <Routes>
                 <Route path="/login" element={<Auth/>}/>
-
+        
                 
                 <Route path='/' element={<MainApp/>}>
                   <Route path="" element={<Home/>}/>
@@ -107,7 +110,8 @@ function App() {
 
                   <Route path="profile" element={<Profile/>}/>
                 </Route>
-                
+
+                <Route path="*" element={<Error404/>}/>                
 
             </Routes>
         </BrowserRouter>

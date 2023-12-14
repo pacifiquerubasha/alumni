@@ -4,7 +4,7 @@ import { AppContext } from '../AppContext';
 import { login } from '../services/apis';
 import { SubmitLoader } from './Loaders';
 
-function LoginForm(props) {
+function LoginForm({setIsLogin}) {
 
     const {user, setUser} = useContext(AppContext);
     const navigate = useNavigate();
@@ -85,6 +85,9 @@ function LoginForm(props) {
                     :""
                 }
             </button>
+            <div onClick={()=>setIsLogin(false)} className='justify-center opacity-5 mt-2 redirect__link'>
+                Don't have an account? Sign up
+            </div>
         </form>
     );
 }

@@ -50,7 +50,7 @@ function Events(props) {
                 <section className="events__banner flex full-center">
                     <div className="events__banner__overlay flex flex-col items-center justify-center">
                         <h1 className='text-5xl font-700 text-white'>Events</h1>
-                        <p className='text-white'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
+                        <p className='text-white text-center px-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
                     </div>
                 </section>
                 <section className='py-5 flex events__core px-2'>
@@ -83,9 +83,9 @@ function Events(props) {
                         </div>
                         
                     </div>
-                    <div className='flex-1'>
+                    <div className='flex-1 events__middle'>
 
-                        <form className='flex gap-2'>
+                        <form className='flex gap-2 search__event'>
                             <input type="text" placeholder='Search' className='px-2 py-1 flex-1' />
                         </form>
                         <div className='mt-2 flex gap-2 filters'>
@@ -104,13 +104,13 @@ function Events(props) {
                         </div>
 
 
-                        <div className='flex justify-between events__container flex-wrap mt-5'>
+                        <div className='flex  gap-2 events__container flex-wrap mt-5'>
                             
                             {loading ?
 
                                 <>
                                     {new Array(4).fill(0).map((_, i)=>(
-                                        <div key={i} className='mb-5'>
+                                        <div key={i} className='mb-5 ev__card'>
                                             <SkeletonLoader/>                                    
                                         </div> 
                                     ))}
@@ -119,7 +119,7 @@ function Events(props) {
 
                                 <>
                                     {events.map((event, i)=>(
-                                        <div key={i} className=' mb-5'>
+                                        <div key={i} className='ev__card mb-5'>
                                             <EventCard data={event}/>
                                         </div>
                                     ))}

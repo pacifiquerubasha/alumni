@@ -5,7 +5,7 @@ import { images } from '../utils/images';
 import { useParams } from 'react-router-dom';
 import { API_URL, deleteEvent, getOneEvent, handleRegister } from '../services/apis';
 import { SpinLoader } from '../components/Loaders';
-import { formatDate } from '../utils/utils';
+import { formatDate, isPastEvent } from '../utils/utils';
 
 import QRCode from 'react-qr-code';
 import { AppContext } from '../AppContext';
@@ -110,12 +110,12 @@ function EventDetails(props) {
                     : 
 
                     <>
-                        <section className="details__hero relative">
+                        <section className="details__hero relative view__events">
                             <img src={`${API_URL}/images/${eventDetails.image}`} className='h-full cover' alt="" />
                             <div className='absolute flex w-3/5 rounded-lg event__ticket shadow-2 mx-auto'>
                                 <div className='flex-1 ticket__left p-2'>
 
-                                    <div className='flex justify-between items-center'>
+                                    <div className='flex justify-between items-center detail__row'>
                                         <h1 className='text-3xl'>{eventDetails.title}</h1>
                                         <div className='event__category text-right opacity-3 color-darkblue font-700 rounded-md px-1 text-sm'>#{eventDetails?.eventType?.toUpperCase()}</div>
                                     </div>
@@ -133,7 +133,7 @@ function EventDetails(props) {
                                         </div>
                                         <span className='text'>{eventDetails.location}</span>
                                     </div>
-                                    <div className='flex mt-4 justify-between'>
+                                    <div className='flex mt-4 justify-between event__detail--actions'>
                                         {!eventDetails?.attendees?.some((attendee)=>attendee._id === user?._id) ?
                                         <button onClick={registerEvent} className='main__btn'>{registering ? "..." : "RSVP"}</button>
                                         :
@@ -142,8 +142,8 @@ function EventDetails(props) {
 
 
                                         {eventDetails.createdBy === user?._id &&
-                                        <div className='flex gap-3 items-center'>
-                                            <button onClick={handleOpenModal} className='main__btn border__btn'>EDIT</button>
+                                        <div className='flex gap-3 items-center event__detail--buttons'>
+                                            {!isPastEvent(eventDetails.date) && !eventDetails.isCanceled && <button onClick={handleOpenModal} className='main__btn border__btn'>EDIT</button>}
                                             <i onClick={()=>setOpenDeleteModal(true)} className='fas fa-trash text-2xl color-main cursor-pointer'></i>
                                         </div>
                                         }
@@ -162,8 +162,8 @@ function EventDetails(props) {
                             </div>
                         </section>
 
-                        <section className='event__details pb-5 flex items-start'>
-                            <div className='flex-1 pr-2'>
+                        <section className='event__details pb-5 flex items-start site__events-det'>
+                            <div className='flex-1 pr-2 event__details--left'>
                                 <h3 className='text-xl mb-2'>Event Description</h3>
 
                                 <div className='flex flex-col gap-2 mb-3'>
@@ -179,7 +179,7 @@ function EventDetails(props) {
                                 </div>
 
                                 <h3 className='text-xl mb-2'>TAGS</h3>
-                                <div className='flex mb-3 gap-2 opacity-5'>
+                                <div className='flex mb-3 gap-2 opacity-5 flex-wrap'>
                                     {eventDetails?.tags?.map((tag, i)=><span key={i}>#{tag}</span>)}
                                 </div>
                             
@@ -199,7 +199,7 @@ function EventDetails(props) {
                                 }
 
                             </div>
-                            <div className='flex flex-col gap-3'>
+                            <div className='flex flex-col gap-3 event__details--right'>
                                 <div className='organisor__details py-2 px-2 rounded-md flex flex-col gap-2'>
                                     <div className='flex items-center gap-1'>
                                         <img src={images.africa} alt="" className='profile__rounded shadow-4 rounded-full cover' />

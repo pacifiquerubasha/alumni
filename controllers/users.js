@@ -422,7 +422,6 @@ const logout = async(req, res, next)=>{
 const getCurrentUser = async(req, res)=>{
 
     const {token} = req.body;
-    console.log("TOKEN", token)
 
     if(!token){
         return res.status(400).json({

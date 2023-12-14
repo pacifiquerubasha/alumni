@@ -89,9 +89,9 @@ function Alumnis(props) {
             :
             <>
                 <section className="stats mx-auto">
-                    <div className='flex mb-2'>
+                    <div className='flex mb-2 stat__cards--list'>
                         {stats.map((stat, i)=>(
-                            <div className="stats__card flex items-center gap-2 px-2 py-2 w-1/5">
+                            <div className="stats__card flex items-center gap-2 px-2 py-2">
                                 <div className="stats__card--icon rounded-md">
                                     <i className={`${stat.icon} text-2xl`}></i>
                                 </div>
@@ -108,7 +108,7 @@ function Alumnis(props) {
 
                 <section className="alumnis mx-auto pb-5">
                     <h3 className='section__title mb-3'>Users</h3>
-                    <div className='w-1/2'>
+                    <div className='w-1/2 filters__container'>
                         <form className='flex gap-2'>
                             <input type="text" placeholder='Search' className='px-2 py-1 flex-1' />
                         </form>

@@ -9,8 +9,8 @@ function Contact(props) {
         <>
             <Header/>
             <main className='main__padding'>
-                <section className="details__hero relative flex">
-                    <img src={images.morning} className='h-full cover' alt="" />
+                <section className="details__hero relative flex contact__page">
+                    <img src={images.morning} className='h-full cover contact__bg' alt="" />
                     <div className="absolute flex items-start w-3/5 contact__content mx-auto">
                         <form action="" className='contact__form w-3/5 shadow-3 bg-white rounded-lg p-2'>
                             <h1 className='mb-2 text-2xl opacity-5'>CONTACT US</h1>

@@ -94,11 +94,14 @@ function MyEvents(props) {
     }, [user])
     return (
         <AppWrapper title="MY EVENTS">
-            <section className='flex w-full gap-2 mx-auto pt-2 items-start pb-5'>
+            <section className='flex w-full gap-2 mx-auto pt-2 items-start pb-5 my__events--container'>
                 <div className='w-3/5 bg-white p-2 rounded-lg'>
-                    <div className='flex items-center mb-5 justify-between'>
+                    <div className='flex items-center mb-5 justify-between my__events-title'>
                         <h3 className='section__title font-500'>My Events</h3>
-                        <button onClick={()=>setCreateModal(true)} className="main__btn text-md">Create Event</button>
+                        <button onClick={()=>setCreateModal(true)} className="main__btn text-md">
+                            <span className='btn__text'>Create Event</span>
+                            <i className='fas fa-plus btn__icon hidden'></i>
+                        </button>
                     </div>
 
                     {loadingEvents ?
@@ -107,7 +110,7 @@ function MyEvents(props) {
                     </div>
                     :
                     <>
-                        <div className='flex justify-between'>
+                        <div className='flex justify-between my__stats'>
                             {stats.map((stat, i)=>(
                                 <div className={`my__events--stat overflow-hidden py-2 ev__stat--${i} w-3/10 flex flex-col items-center justify-center`}>
                                     <div className='text-2xl font-500'>{stat.value}</div>
@@ -120,11 +123,11 @@ function MyEvents(props) {
                         <div className='mt-5 flex flex-wrap gap-2'>
                             {myEvents.map((event, i)=>(
                                 <div key={event._id} onClick={()=>navigate(`/alumni-events/${event._id}`)} className='w-3/4 cursor-pointer border p-1 rounded-sm my__events-repeated'>
-                                    <h5 className='text-xl color-darkblue'>{event.title}</h5>
-                                    <p className='opacity-7'>
+                                    <h5 className='text-xl ellipsis mb-1 color-darkblue section__subtitle'>{event.title}</h5>
+                                    <p className='opacity-7 ellipsis-3'>
                                         {event.description}
                                     </p>
-                                    <div className='flex mt-1 opacity-5 justify-between'>
+                                    <div className='flex mt-1 opacity-5 justify-between my__event--row'>
                                         <span>{event.location}</span>
                                         <span>{formatDate(event.date)}</span>
                                     </div>
@@ -157,12 +160,12 @@ function MyEvents(props) {
                         :
                         <div className="flex flex-col gap-2">
                             {myRSVPs.map((event, i)=>(
-                                <NavLink to={`/alumni-events/${event?.eventId?._id}`} className={`w-full border p-1/2 rounded-sm border flex gap-2 items-center justify-between my__upcoming--event ${new Date((event?.eventId?.date)?.split(" ")[0]) - new Date() < 0  && "my__past--event"}`}>
-                                    <div className='flex items-center gap-1'>
+                                <NavLink to={`/alumni-events/${event?.eventId?._id}`} className={`w-full border p-1/2 rounded-sm border flex gap-1 items-center justify-between my__upcoming--event ${new Date((event?.eventId?.date)?.split(" ")[0]) - new Date() < 0  && "my__past--event"}`}>
+                                    <div className='flex items-center gap-1 w-3/5'>
                                         <i className={`fas fa-${event.eventId?.isCanceled ? "times":"check"}-circle text-${event.eventId?.isCanceled?"red":"green"}`}></i>
                                         <h5 className='text-sm ellipsis'>{event?.eventId?.title || ""}</h5>                                   
                                     </div>
-                                    <span>{new Date(event?.eventId?.date).toLocaleDateString()}</span>
+                                    <p className='ellipsis'>{new Date(event?.eventId?.date).toLocaleDateString()}</p>
                                 </NavLink>
                             ))
                             }

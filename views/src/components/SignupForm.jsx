@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { SubmitLoader } from './Loaders';
 import { signup } from '../services/apis';
 
-function SignupForm({setEmailVerification}) {
+function SignupForm({setEmailVerification, setIsLogin}) {
 
     const [formFields, setFormFields] = useState({});
     const [loading, setLoading] = useState(false);
@@ -90,6 +90,9 @@ function SignupForm({setEmailVerification}) {
                     :""
                 }
             </button>
+            <div onClick={()=>setIsLogin(true)} className='justify-center opacity-5 mt-2 redirect__link'>
+               Already have an account? Log in
+            </div>
         </form>
     );
 }

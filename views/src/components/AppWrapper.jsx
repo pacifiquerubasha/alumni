@@ -88,9 +88,20 @@ function AppWrapper({title, children}) {
 
 
     return (
-        <div className=''>
-            <div className='app__header w-full flex justify-between shadow-4 items-center px-5'>
-                <NavLink to="/" className="text-xl logo__gradient">ALUmineers</NavLink>
+        <div className='app__wrapper'>
+            <div className='app__header z-total w-full flex justify-between shadow-4 items-center px-5'>
+                <div class="toggleContainer">
+                    <input type="checkbox" id="checkbox1" class="checkbox1 visuallyHidden"/>
+                    <label for="checkbox1">
+                        <div class="hamburger hamburger1">
+                            <span class="bar bar1"></span>
+                            <span class="bar bar2"></span>
+                            <span class="bar bar3"></span>
+                            <span class="bar bar4"></span>
+                        </div>
+                    </label>
+                </div>
+                <NavLink to="/" className="text-xl logo__gradient app__logo">ALUmineers</NavLink>
                 <h3>{title}</h3>
                 <NavLink to="/profile">
                     <img src={` ${user?.profilePicture ? `${API_URL}/images/${user?.profilePicture}`: images.user}`} alt="" className='profile__rounded border-main shadow-4 rounded-full cover' />
