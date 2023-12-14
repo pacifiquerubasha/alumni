@@ -20,7 +20,7 @@ import 'react-calendar/dist/Calendar.css';
 import Auth from './views/Auth';
 import { API_URL, getCurrentUser, token } from './services/apis';
 import MainApp from './components/MainApp';
-import Chats from './views/Chats';
+// import Chats from './views/Chats';
 import Dashboard from './views/app/Dashboard';
 import MyEvents from './views/app/MyEvents';
 import AlumniEvents from './views/app/AlumniEvents';

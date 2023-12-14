@@ -381,6 +381,14 @@ main{
         width: 45%;
     }
 
+    .view_news--container{
+        width: 100% !important;
+    }
+
+    .view_news--container h1{
+        font-size: 2rem !important;
+    }
+
 
 }
 
@@ -746,5 +754,10 @@ main{
 
     .edit__alumni p{
         width: 100% !important;
+    }
+
+
+    .view_news--container h1{
+        font-size: 1.5rem !important;
     }
 }

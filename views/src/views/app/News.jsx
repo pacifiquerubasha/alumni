@@ -45,7 +45,10 @@ function News(props) {
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, iste.
                     </p>                
                 </div> 
-                <button onClick={()=>setOpenCreateModal(true)} className="main__btn text-md">Create News</button>
+                <button onClick={()=>setOpenCreateModal(true)} className="main__btn text-md">
+                    <span className='btn__text'>Create News</span>
+                    <i className='fas fa-plus text-xl pr-1 btn__icon hidden'></i>
+                </button>
             </div>
             {loading ?
                 <div className='flex flex-wrap gap-2'>

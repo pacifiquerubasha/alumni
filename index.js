@@ -14,6 +14,7 @@ const { userRouter } = require('./routes/user-routes');
 const { eventsRouter } = require('./routes/event-routes');
 const { newsRouter } = require('./routes/news-routes');
 const { activityRouter } = require('./routes/activities-routes');
+const { contactRouter } = require('./routes/contact-routes');
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use("/api/users", userRouter);
 app.use("/api/events", eventsRouter);
 app.use("/api/news", newsRouter);
 app.use("/api/activities", activityRouter);
+app.use("/api/contacts", contactRouter);
 
 
 app.all('*', (req, res, next) => {

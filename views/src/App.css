@@ -1270,3 +1270,7 @@ button .loading{
   padding-top: 10rem;
   padding-bottom: 10rem;
 }
+
+.contact__btn{
+  width: 75%;
+}

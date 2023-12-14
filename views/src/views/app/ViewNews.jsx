@@ -79,7 +79,7 @@ function ViewNews(props) {
     return (
         <AppWrapper title="NEWS">
             {loading ?
-                <div className='w-1/2 mx-auto flex flex-col gap-2'>
+                <div className='w-1/2 view_news--container mx-auto flex flex-col gap-2'>
                     <div className='py-1 w-1/4 skel__anim rounded-md bg__skel'></div>
                     <div className='py-10 skel__anim big__skel rounded-md bg__skel'></div>
                     <div className='py-1 w-1/4 skel__anim rounded-md bg__skel'></div>
@@ -87,7 +87,7 @@ function ViewNews(props) {
                 </div>
 
                 :
-                <div className='w-1/2 mx-auto'>              
+                <div className='w-1/2 view_news--container mx-auto'>              
                     
                     <div onClick={goBack} className="flex cursor-pointer gap-2 items-center mb-2">
                         <i className='fas fa-arrow-left text-2xl color-main'></i>

@@ -172,3 +172,8 @@ export async function getNewsById(id){
     const url = `${API_URL}/api/news/${id}`
     return axios.get(url).then(response => response.data)
 }
+
+export async function sendContact(data){
+    const url = `${API_URL}/api/contacts/`
+    return axios.post(url, data).then(response => response.data)
+}
