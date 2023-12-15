@@ -295,6 +295,90 @@ const receivedContactInformationTemplate = (info)=>{
     </html>`;
 }
 
+const passwordResetTemplate = (username, password)=>{
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Password Reset</title>
+        <style>
+            :root {
+            --color-whiteorange: #faeeee;
+            --color-main: #BF2C34;
+            --color-faded: #bf2c334b;
+            --color-darkblue: rgb(2, 3, 129);
+            }
+
+            body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            }
+
+            .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            h2 {
+            color: rgb(2, 3, 129);
+            }
+
+            p {
+            color: rgb(2, 3, 129);
+            }
+
+            .user-details {
+            margin-bottom: 20px;
+            }
+
+            .event-details {
+            border-top: 1px solid var(--color-faded);
+            padding-top: 20px;
+            }
+
+            .signature {
+            margin-top: 3rem;
+            }
+            
+            .role{
+                font-size:90%;
+                opacity:0.5;
+            }
+        </style>
+    </head>
+
+    <body>
+    <div class="container">
+        <h2>Password Reset</h2>
+        <p>Dear ${username},</p>
+
+        <p>You have requested a password reset on the ALUmineers website.</p>
+
+        <div class="event-details">
+        <h3>New temporary password</h3>
+        <p><strong>Password:</strong> ${password}</p>
+        </div>
+
+        <div class="signature">
+            <p>Best regards,</p>
+            <p>ALUmineers Bot</p>
+        </div>
+
+        <p style="color: #777; font-size: 12px; margin-top: 20px;">ALUmineers &copy; ${new Date().getFullYear()}</p>
+    </div>
+    </body>
+    </html>`;
+
+
+}
+
 
 
 
@@ -302,4 +386,5 @@ module.exports = {
     verificationTemplate, 
     eventRegistrationTemplate, 
     eventCancellationTemplate,
-    receivedContactInformationTemplate}
+    receivedContactInformationTemplate,
+    passwordResetTemplate}

@@ -17,22 +17,43 @@ function SignupForm({setEmailVerification, setIsLogin}) {
         setFormFields({...formFields, [e.target.name]: e.target.value});
     }
 
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+
+    const checkPassword = ()=>{
+
+        //Check if password matches regex
+        if(!formFields.password.match(passwordRegex)){
+            setMessage({type:'error', text:'Password must be 8-15 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character'})
+            return false
+        }
+
+        if(formFields.password !== formFields.confirmPassword){
+            setMessage({type:'error', text:'Passwords do not match'})
+            return false
+        }
+
+        return true
+    }
+
     async function handleSubmit(e){
         e.preventDefault();
-        setLoading(true);
         
-        try {
-            const response = await signup(formFields);
-            if(response.data.user){
-                setEmailVerification(response.data.user.email)
+        if(checkPassword()){
+            try {
+                setLoading(true);
+                const response = await signup(formFields);
+                if(response.data.user){
+                    setEmailVerification(response.data.user.email)
+                }
+                
+            } catch (error) {
+                setMessage({type:'error', text:error?.response?.data?.data?.message})
             }
-            
-        } catch (error) {
-            setMessage({type:'error', text:error?.response?.data?.data?.message})
+            finally{
+                setLoading(false)
+            }
         }
-        finally{
-            setLoading(false)
-        }
+        
     }
 
     useEffect(()=>{
@@ -43,6 +64,8 @@ function SignupForm({setEmailVerification, setIsLogin}) {
         }
     }, [message])
 
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 
     return (
@@ -70,13 +93,13 @@ function SignupForm({setEmailVerification, setIsLogin}) {
             </div>
             <div className="form__group relative">
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Your Password" onChange={handleChange} required/>
-                <i className='fas fa-eye show__pass'></i>
+                <input type={showPassword ? "text":"password"} id="password" name="password" placeholder="Your Password" onChange={handleChange} required/>
+                <i onClick={()=>setShowPassword((prev)=>!prev)} className={`fas fa-${showPassword ? "eye-slash":"eye"} show__pass`}></i>
             </div>
             <div className="form__group relative">
                 <label htmlFor="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Your Password Confirmation" onChange={handleChange} required/>
-                <i className='fas fa-eye show__pass'></i>
+                <input type={showConfirmPassword ? "text":"password"} id="confirmPassword" name="confirmPassword" placeholder="Your Password Confirmation" onChange={handleChange} required/>
+                <i onClick={()=>setShowConfirmPassword((prev)=>!prev)} className={`fas fa-${showConfirmPassword ? "eye-slash":"eye"} show__pass`}></i>
             </div>
 
             

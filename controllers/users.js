@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const { sendEmail } = require("../utils/mailer");
-const { verificationTemplate } = require("../utils/mailTemplates");
+const { verificationTemplate, passwordResetTemplate } = require("../utils/mailTemplates");
 const Activity = require("../models/Activity");
 
 const jwt = require("jsonwebtoken");
@@ -667,6 +667,84 @@ const changeProfilePicture = async(req, res)=>{
 
 }
 
+const forgotPassword = async(req, res)=>{
+    const {email} = req.body
+
+    try {
+        if(!email){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "Please provide email"
+                }
+            })
+        }
+
+        //Check if user with email exists and 
+        let user = await User.findOne({email});
+        if(!user){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "Invalid email"
+                }
+            })
+        }
+
+        // Check is user emailVerified
+        if(!user.emailVerified){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "Please verify your email"
+                }
+            })
+        }
+
+        //Check if user was softdeleted
+        if(user.softDeleted){
+            return res.status(400).json({
+                message: "fail",
+                data: {
+                    message: "Account deleted! Please contact the admin."
+                }
+            })
+        }
+
+        //Generate temporary password of 7 characters
+        let temporaryPassword = Math.random().toString(36).slice(-7);
+        // Update users password field to generated one
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(temporaryPassword, salt);
+        user.password = hashedPassword;
+        
+        await user.save();
+
+        //Send email to user with temporary password
+        const info = sendEmail({
+            from: process.env.MAILER_EMAIL,
+            to: user.email,
+            subject: "ALUmineers Account Password Reset",
+            html: passwordResetTemplate(user.lastName, temporaryPassword)
+        })
+
+        return res.status(200).json({
+            message: "success",
+            data: {
+                user
+            }
+        })
+        
+    } catch (error) {
+        return res.status(401).json({
+            message: "fail",
+            data: {
+                message: error.message
+            }
+        })
+        
+    }
+}
 
 
 //Export
@@ -683,6 +761,6 @@ module.exports = {
     updateUser,
     changePassword,
     softDeleteUser,
-    changeProfilePicture
-
+    changeProfilePicture,
+    forgotPassword
 }

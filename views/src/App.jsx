@@ -30,6 +30,7 @@ import ViewAlumni from './views/app/ViewAlumni';
 import News from './views/app/News';
 import ViewNews from './views/app/ViewNews';
 import Error404 from './views/Error404'
+import ForgotPassword from './views/ForgotPassword'
 
 
 function App() {
@@ -85,8 +86,9 @@ function App() {
         <BrowserRouter>         
             <Routes>
                 <Route path="/login" element={<Auth/>}/>
-        
-                
+                <Route path="/forgot-password" element={<ForgotPassword/>}/>
+
+      
                 <Route path='/' element={<MainApp/>}>
                   <Route path="" element={<Home/>}/>
                   <Route path="events" element={<><Outlet/></>}>

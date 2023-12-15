@@ -67,6 +67,12 @@ export async function verifyEmail(data){
     return axios.post(url, data).then(response => response.data)
 }
 
+export async function forgotPassword(data){
+    const url = `${API_URL}/api/users/forgot-password`
+    return axios.put(url, data).then(response => response.data)
+
+}
+
 export async function login(data){
     const url = `${API_URL}/api/users/login`
     return axios.post(

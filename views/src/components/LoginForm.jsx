@@ -72,7 +72,7 @@ function LoginForm({setIsLogin}) {
                 <i onClick={()=>setPasswordVisible((prev)=>!prev)} className={`fas fa-${passwordVisible ? "eye-slash":"eye"} show__pass`}></i>
             </div>
             <div className="flex items-center justify-between">
-                <NavLink href="" className="color-darkblue">Forgot password?</NavLink>
+                <NavLink to="/forgot-password" className="color-darkblue">Forgot password?</NavLink>
             </div>
            
             

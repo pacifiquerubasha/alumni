@@ -51,6 +51,14 @@ app.use("/api/news", newsRouter);
 app.use("/api/activities", activityRouter);
 app.use("/api/contacts", contactRouter);
 
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: "success",
+        data: {
+            message: "Welcome to the ALUmineers API"
+        }
+    })
+})
 
 app.all('*', (req, res, next) => {
     res.status(404).json({
@@ -74,3 +82,5 @@ mongoose.connect(process.env.MONGO_URI)
     });
 
 
+
+module.exports = app;
