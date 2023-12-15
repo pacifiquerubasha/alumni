@@ -19,7 +19,9 @@ function Alumnis(props) {
     const [alumniData, setAlumniData] = useState({});
 
     const [allUsers, setAllUsers] = useState({});
-
+    const [softToShow, setSoftToShow] = useState()
+    const [activeToShow, setActiveToShow] = useState()
+    
     useEffect(()=> {
         const fetchUsers = async()=>{
             try {
@@ -40,6 +42,8 @@ function Alumnis(props) {
                     , {active: [], softDeleted: []})
 
                     setAllUsers(categorizedUsers);
+                    setActiveToShow(categorizedUsers.active);
+                    setSoftToShow(categorizedUsers.softDeleted);
                 }
                 
             } catch (error) {
@@ -71,7 +75,7 @@ function Alumnis(props) {
         },
         {
             icon: "fas fa-trash",
-            total: 100,
+            total: alumniData?.users?.filter((alumni=>alumni?.softDeleted)).length,
             label: "Deleted"
         },
     ]
@@ -79,6 +83,32 @@ function Alumnis(props) {
     const [calendarDate, setCalendarDate] = useState(new Date());
 
     const [showDeleted, setShowDeleted] = useState(false);
+
+    const curr = showDeleted ? allUsers?.softDeleted : allUsers?.active;
+
+
+    const handleSearch = (e)=>{
+
+        const timeout = setTimeout(()=>{
+            const search = e.target.value.toLowerCase();
+            
+            const filteredUsers = curr.filter(user=>{
+                const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+                return fullName.includes(search);
+            });
+
+            if(showDeleted){
+                setSoftToShow(filteredUsers);
+            }
+            else{
+                setActiveToShow(filteredUsers);
+            }
+
+        }, 1000)
+
+        return ()=>clearTimeout(timeout);
+
+    }
 
     return (
         <AppWrapper>
@@ -110,7 +140,7 @@ function Alumnis(props) {
                     <h3 className='section__title mb-3'>Users</h3>
                     <div className='w-1/2 filters__container'>
                         <form className='flex gap-2'>
-                            <input type="text" placeholder='Search' className='px-2 py-1 flex-1' />
+                            <input type="text" placeholder='Search' className='px-2 py-1 flex-1' onChange={handleSearch} />
                         </form>
                         <div className='my-2 flex gap-2 filters'>
                             <button onClick={()=>setShowDeleted(false)} className={`${!showDeleted ? "active":""}`}>
@@ -124,8 +154,8 @@ function Alumnis(props) {
                     {
                         !showDeleted ?
                         <div className='flex flex-wrap gap-1'>
-                            {allUsers?.active?.map((alumni, i)=>(
-                                <div onClick={()=>navigate(`/alumni/${alumni._id}`)} className={`alumni__card cursor-pointer bg-white relative rounded-lg flex items-center gap-2 px-2 py-2 ${user._id === alumni._id && "user__admin"} `}>
+                            {activeToShow?.map((alumni, i)=>(
+                                <div onClick={()=>user._id !== alumni._id && navigate(`/alumni/${alumni._id}`)} className={`alumni__card cursor-pointer bg-white relative rounded-lg flex items-center gap-2 px-2 py-2 ${user._id === alumni._id && "user__admin"} `}>
                                     <div className="alumni__card--img">
                                         <img src={` ${alumni?.profilePicture ? `${API_URL}/images/${alumni?.profilePicture}`: images.user}`} alt="" className='profile__rounded shadow-4 rounded-full cover' />
                                     </div>
@@ -142,8 +172,8 @@ function Alumnis(props) {
                         </div>
                         :
                         <div className='flex flex-wrap gap-1'>
-                            {allUsers?.softDeleted?.map((alumni, i)=>(
-                                <div onClick={()=>navigate(`/alumni/${alumni._id}`)} className={`alumni__card cursor-pointer bg-white relative rounded-lg flex items-center gap-2 px-2 py-2 ${user._id === alumni._id && "user__admin"} `}>
+                            {softToShow?.map((alumni, i)=>(
+                                <div onClick={()=> navigate(`/alumni/${alumni._id}`)} className={`alumni__card cursor-pointer bg-white relative rounded-lg flex items-center gap-2 px-2 py-2 ${user._id === alumni._id && "user__admin"} `}>
                                     <div className="alumni__card--img">
                                         <img src={` ${alumni?.profilePicture ? `${API_URL}/images/${alumni?.profilePicture}`: images.user}`} alt="" className='profile__rounded shadow-4 rounded-full cover' />
                                     </div>

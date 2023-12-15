@@ -131,8 +131,7 @@ function ViewAlumni(props) {
                     <div>
                         <h3 className='section__title'>Edit Alumni - <span className='opacity-5 font-400'>{alumni.firstName} {alumni.lastName}</span></h3>
                         <p className='opacity-5 w-3/4'>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab facere at consequatur aliquid. Quia explicabo magni ipsum sit hic placeat.
-                        </p>
+                        Empower your narrative of success through personalized updates and contribute to the thriving legacy of Alumineers.                        </p>
                     </div>
                     <i onClick={setOpenDeleteModal} className='fas fa-trash delete__btn text-3xl text-red cursor-pointer'></i>
                 </div>

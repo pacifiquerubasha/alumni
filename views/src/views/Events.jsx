@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import EventCard from '../components/EventCard';
 import { getEvents, getUpcomingEvents } from '../services/apis';
 import { SkeletonLoader } from '../components/Loaders';
+import { images } from '../utils/images';
 
 function Events(props) {
 
@@ -26,12 +27,15 @@ function Events(props) {
         setLocations(uniqueLocations);
     }
 
+    const [eventsToShow, setEventsShow] = useState([]);
+
     useEffect(()=>{
         const fetchEvents = async()=>{
             setLoading(true)
             const events = await getUpcomingEvents();
             setAllEvents(events?.data?.events);
             setEvents(events?.data?.events);
+            setEventsShow(events?.data?.events);
             setLoading(false)
             
             getUniqueDates(events?.data?.events);
@@ -43,6 +47,42 @@ function Events(props) {
 
     }, [])
 
+    const [currentFilter, setCurrentFilter] = useState("All");
+    const handleFilter = (filter)=>{
+        setCurrentFilter(filter);
+
+        if(filter === "All"){
+            setEventsShow(allEvents);        
+            return;
+        }
+
+        const filteredEvents = allEvents.filter(event=>event.eventType === filter);
+        setEventsShow(filteredEvents);
+    }
+
+    const filters = [
+        "All",
+        "Professional Development",
+        "Campus Events",
+        "Networking"
+    ]
+
+
+    const handleSearch = (e)=>{
+
+        const timeout = setTimeout(()=>{
+            const search = e.target.value.toLowerCase();
+            const filteredEvents = allEvents.filter(event=>{
+                return event.title.toLowerCase().includes(search) || event.description.toLowerCase().includes(search)
+            });
+            setEventsShow(filteredEvents);
+        }, 1000)
+
+        return ()=>clearTimeout(timeout);
+
+    }
+    
+
     return (
         <>
             <Header/>
@@ -50,7 +90,9 @@ function Events(props) {
                 <section className="events__banner flex full-center">
                     <div className="events__banner__overlay flex flex-col items-center justify-center">
                         <h1 className='text-5xl font-700 text-white'>Events</h1>
-                        <p className='text-white text-center px-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
+                        <p className='text-white text-center px-2'>
+                            Explore upcoming events happening in our community.                            
+                        </p>
                     </div>
                 </section>
                 <section className='py-5 flex events__core px-2'>
@@ -86,21 +128,17 @@ function Events(props) {
                     <div className='flex-1 events__middle'>
 
                         <form className='flex gap-2 search__event'>
-                            <input type="text" placeholder='Search' className='px-2 py-1 flex-1' />
+                            <input type="text" placeholder='Search' className='px-2 py-1 flex-1' onChange={handleSearch} />
                         </form>
                         <div className='mt-2 flex gap-2 filters'>
-                            <button className='active'>
-                                <span>ALL</span>
-                            </button>
-                            <button>
-                                <span>Professional Development</span>
-                            </button>
-                            <button>
-                                <span>Training & Workshops</span>
-                            </button>
-                            <button>
-                                <span>Networking</span>
-                            </button>
+                            {
+                                filters.map((filter, i)=>(
+                                    <button onClick={()=>handleFilter(filter)} className={currentFilter === filter ? 'active' : ''}>
+                                        <span>{filter}</span>
+                                    </button>
+                                ))
+                            }
+                            
                         </div>
 
 
@@ -118,11 +156,22 @@ function Events(props) {
                                 :
 
                                 <>
-                                    {events.map((event, i)=>(
-                                        <div key={i} className='ev__card mb-5'>
-                                            <EventCard data={event}/>
-                                        </div>
-                                    ))}
+                                    {eventsToShow.length === 0 ?
+                                    <div className='flex flex-col items-center'>
+                                        <img src={images.empty1} className='empty__dash'/>
+                                        <span className='opacity-5'>No Upcoming Events</span>
+                                    </div>
+                                    :
+
+                                    <>
+                                        {events.map((event, i)=>(
+                                            <div key={i} className='ev__card mb-5'>
+                                                <EventCard data={event}/>
+                                            </div>
+                                        ))}                                    
+                                    </>
+                                    
+                                    }
                                 
                                 </>
                             

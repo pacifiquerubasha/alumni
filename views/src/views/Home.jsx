@@ -162,7 +162,7 @@ function Home(props) {
                         <div className='flex-1 pl-3 row__content'>
                             <h3 className="section__title mb-2">{How_It_Works.title}</h3>
                             <p className='mb-3'>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit quaerat error corporis reiciendis, iste vero obcaecati fugit pariatur accusamus quidem dolor tempore consequatur voluptas non, totam ipsa placeat tempora tenetur illo aperiam quasi assumenda reprehenderit! Molestiae quidem quas quis in placeat harum, mollitia optio sit aperiam maxime laudantium eveniet repellat.
+                                Celebrate the victories and triumphs of Alumineers! Join our vibrant community in commemorating career successes, educational milestones, and impactful events. Share your success story and inspire others. At Alumineers, every achievement is a cause for celebration, fostering connections and creating a space where success is embraced and shared.
                             </p>
                             <button onClick={()=>navigate("/events")} className='px-2 main__btn text-lg font-500'>Explore Events</button>
                         </div>

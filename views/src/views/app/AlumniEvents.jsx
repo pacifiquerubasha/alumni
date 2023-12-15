@@ -48,7 +48,7 @@ function AlumniEvents(props) {
                 <div>
                     <h1 className=''>Events</h1>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, iste.
+                    Alumni Events: Where Connections Flourish and Memories Unfold
                     </p>                
                 </div>  
                 <div className='flex events__container gap-3 flex-wrap mt-5'>                            

@@ -36,7 +36,7 @@ function CreateEventForm({eventFormData, setEventFormData, isEdit}) {
 
     const eventTypes = [
         'Professional Development',
-        'Training & Workshops',
+        'Campus Events',
         'Networking'
     ]
 
