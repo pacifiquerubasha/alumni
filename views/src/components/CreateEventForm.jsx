@@ -49,8 +49,9 @@ function CreateEventForm({eventFormData, setEventFormData, isEdit}) {
                 ...eventFormData, 
                 createdBy: user._id
             }
+            const token = localStorage.getItem("alumineersToken")
 
-            const response = await createEvent(data);
+            const response = await createEvent(data, token);
             if(response.data.event){
                 setMessage({
                     type: 'success',
@@ -82,8 +83,9 @@ function CreateEventForm({eventFormData, setEventFormData, isEdit}) {
                 ...eventFormData, 
                 createdBy: user._id,
             }
+            const token = localStorage.getItem("alumineersToken")
 
-            const response = await updateEvent(data, id);
+            const response = await updateEvent(data, id, token);
             if(response.data.event){
                 setMessage({
                     type: 'success',

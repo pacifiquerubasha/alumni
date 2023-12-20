@@ -20,7 +20,9 @@ function EventCard({data, isApp}) {
         
         try {
             setRegistering(true);
-            let res = await handleRegister({eventId: data._id, userId: user._id });
+            const token = localStorage.getItem("alumineersToken")
+
+            let res = await handleRegister({eventId: data._id, userId: user._id }, token);
             if(res?.data){
                 setTimeout(() => {
                     window.location.reload();

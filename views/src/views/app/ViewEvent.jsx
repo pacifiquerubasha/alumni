@@ -80,7 +80,9 @@ function ViewEvent(props) {
     const registerEvent = async()=>{
         try {
             setRegistering(true);
-            let res = await handleRegister({eventId: id, userId: user._id });
+            const token = localStorage.getItem("alumineersToken")
+
+            let res = await handleRegister({eventId: id, userId: user._id }, token);
             if(res?.data){
                 setTimeout(() => {
                     window.location.reload();
@@ -109,7 +111,9 @@ function ViewEvent(props) {
         let timeout;
         try {
             setCancelling(true);
-            let res = await cancelEvent(eventDetails._id);
+            const token = localStorage.getItem("alumineersToken")
+
+            let res = await cancelEvent(eventDetails._id, token);
             if(res?.data){
                 setMessage({
                     type: 'success',

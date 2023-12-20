@@ -19,7 +19,9 @@ function News(props) {
         const fetchNews = async()=>{
             try {
                 setLoading(true)
-                let response = await getAllNews();
+                const token = localStorage.getItem("alumineersToken")
+
+                let response = await getAllNews(token);
 
                 if(response?.data?.news){
                     setNews(response.data.news)

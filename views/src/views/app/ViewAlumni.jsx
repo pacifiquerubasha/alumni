@@ -22,7 +22,9 @@ function ViewAlumni(props) {
     const fetchUser = async()=>{
         try {
             setLoading(true)
-            const response = await getOneUser(id);
+            const token = localStorage.getItem("alumineersToken")
+
+            const response = await getOneUser(id, token);
             if(response.data){
                 setFormFields(response.data.user)
                 setAlumni(response.data.user)
@@ -84,7 +86,9 @@ function ViewAlumni(props) {
     const handleDeleteUser = async()=>{
         try {
             setDeleting(true)
-            const response = await softDeleteUser(id);
+            const token = localStorage.getItem("alumineersToken")
+
+            const response = await softDeleteUser(id, token);
             if(response.data){
                 console.log(response.data)
                 setMessage({

@@ -22,7 +22,9 @@ function Chats(props) {
         const fetchUsers = async()=>{
             try {
                 setLoadingUsers(true)
-                const response = await getUsers();
+                const token = localStorage.getItem("alumineersToken")
+               
+                const response = await getUsers(token);
                 if(response.data.users){
                     const filteredUsers = response?.data?.users.filter((item)=>item._id !== user._id);
                     setUsers(filteredUsers);

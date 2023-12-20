@@ -56,11 +56,13 @@ function App() {
 
     setLoadingUser(true)
     try {
-      const token = localStorage.getItem("alumneersToken");
-      const response = await getCurrentUser(token);
-      if(response.data.user){
-          setUser(response.data.user)
-          console.log(response.data.user)
+      const token = localStorage.getItem("alumineersToken");
+      if(token){
+        const response = await getCurrentUser(token);
+        if(response.data.user){
+            setUser(response.data.user)
+            console.log(response.data.user)
+        }
       }
       
     } catch (error) {

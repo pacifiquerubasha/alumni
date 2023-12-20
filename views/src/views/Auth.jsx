@@ -4,6 +4,7 @@ import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 import VerifyEmail from '../components/VerifyEmail';
 import { AppContext } from '../AppContext';
+import { token } from '../services/apis';
 
 function Auth(props) {
 
@@ -11,6 +12,9 @@ function Auth(props) {
     const [isLogin, setIsLogin] = useState(true);
     const [emailVerification, setEmailVerification] = useState(null);
 
+    useEffect(()=>{
+
+    }, [])
 
     return (
         <div className='auth__page relative h-screen w-full flex items-center'>

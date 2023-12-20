@@ -97,32 +97,39 @@ function Events(props) {
                 </section>
                 <section className='py-5 flex events__core px-2'>
                     <div className='w-1/4 events__core--side'>
-                        <div className='mb-2'>
-                            <h5>DATES</h5>
-                            <div className='side__bar--list'>
-                                {loading ?
-                                <div>LOADING...</div>
-                                :
-                                <>
-                                {dates.map((date, i)=><span>{date}</span>)}
-                                
-                                </>
-                                }                              
-                            </div>
-                        </div>
-                        <div>
-                            <h5>LOCATIONS</h5>
-                            <div className='side__bar--list'>
-                            {loading ?
-                                <div>LOADING...</div>
-                                :
-                                <>
-                                {locations.map((location, i)=><span>{location}</span>)}
-                                
-                                </>
-                                }    
-                            </div>
-                        </div>
+                        {
+                            eventsToShow.length > 0 ?
+
+                            <>
+                                <div className='mb-2'>
+                                    <h5>DATES</h5>
+                                    <div className='side__bar--list'>
+                                        {loading ?
+                                        <div>LOADING...</div>
+                                        :
+                                        <>
+                                        {dates.map((date, i)=><span>{date}</span>)}
+                                        
+                                        </>
+                                        }                              
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5>LOCATIONS</h5>
+                                    <div className='side__bar--list'>
+                                    {loading ?
+                                        <div>LOADING...</div>
+                                        :
+                                        <>
+                                        {locations.map((location, i)=><span>{location}</span>)}
+                                        
+                                        </>
+                                        }    
+                                    </div>
+                                </div>                            
+                            </>:""
+                        
+                        }
                         
                     </div>
                     <div className='flex-1 events__middle'>

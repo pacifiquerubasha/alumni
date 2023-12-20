@@ -36,7 +36,7 @@ function LoginForm({setIsLogin}) {
                     type:'success',
                     text:'Login successful'                
                 })
-                localStorage.setItem("alumneersToken", response.data.token);
+                localStorage.setItem("alumineersToken", response.data.token);
                 setTimeout(() => {
                     navigate("/dashboard")               
                 }, 1000);

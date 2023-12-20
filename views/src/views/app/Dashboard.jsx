@@ -18,69 +18,11 @@ function Dashboard(props) {
     const [loading, setLoading] = useState(false);
     const [news, setNews] = useState([]);
 
-    useEffect(()=>{
-        const fetchNews = async()=>{
-            try {
-                setLoading(true)
-                let response = await getAllNews();
-
-                if(response?.data?.news){
-                    setNews(response.data.news)
-                }    
-    
-            } catch (error) {
-                console.log(error)
-            }
-            finally{
-                setLoading(false)
-            }
-        }
-
-        fetchNews();
-    }, [])
-
     const [loadingUpcoming, setLoadingUpcoming] = useState(false);
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     
-    useEffect(()=>{
-        const fetchEvents = async()=>{
-            try {
-                setLoadingUpcoming(true)
-                const events = await getUpcomingEvents();
-                setUpcomingEvents(events?.data?.events);
-                console.log(events)
-                
-            } catch (error) {
-                console.log(error)                
-            }
-            finally{
-                setLoadingUpcoming(false)
-            }
-
-        }
-        fetchEvents();
-    }, [])
-
     const [loadingActivities, setLoadingActivities] = useState(false);
     const [activities, setActivities] = useState([]);
-
-    useEffect(()=>{
-        const fetchActivities = async()=>{
-            try {
-                setLoadingActivities(true)
-                const activities = await getRecentActivities(user?._id);
-                setActivities(activities?.data?.activities);
-                
-            } catch (error) {
-                console.log(error)                
-            }
-            finally{
-                setLoadingActivities(false)
-            }
-
-        }
-        fetchActivities();
-    }, [])
 
     const [loadingEvents, setLoadingEvents] = useState(false);
     const [myEvents, setMyEvents] = useState([]);
@@ -105,27 +47,84 @@ function Dashboard(props) {
         }
     ]
 
-    useEffect(()=>{
-        const fetchMyEvents = async()=>{
+    const fetchNews = async()=>{
+        try {
+            setLoading(true)
+            const token = localStorage.getItem("alumineersToken")
+
+            let response = await getAllNews(token);
+
+            if(response?.data?.news){
+                setNews(response.data.news)
+            }    
+
+        } catch (error) {
+            console.log(error)
+        }
+        finally{
+            setLoading(false)
+        }
+    }
+
+    const fetchMyEvents = async()=>{
+        try {
+            setLoadingEvents(true)
+            const token = localStorage.getItem("alumineersToken")
+
+            let response = await getMyEvents(user._id, token)
+            if(response?.data?.events){
+                const data = response.data.events.sort((a, b)=>new Date(b.date) - new Date(a.date))
+                setMyEvents(data)
+                console.log(response.data.events)
+            }
+
+
+        } catch (error) {
+            console.log(error)
+        }
+        finally{
+            setLoadingEvents(false)
+        }
+    }
+
+    const fetchActivities = async()=>{
             try {
-                setLoadingEvents(true)
-                let response = await getMyEvents(user._id)
-                if(response?.data?.events){
-                    const data = response.data.events.sort((a, b)=>new Date(b.date) - new Date(a.date))
-                    setMyEvents(data)
-                    console.log(response.data.events)
-                }
-    
-    
+                setLoadingActivities(true)
+                const token = localStorage.getItem("alumineersToken")
+
+                const activities = await getRecentActivities(user?._id, token);
+                setActivities(activities?.data?.activities);
+                
             } catch (error) {
-                console.log(error)
+                console.log(error)                
             }
             finally{
-                setLoadingEvents(false)
+                setLoadingActivities(false)
             }
+
+    }
+
+    const fetchEvents = async()=>{
+        try {
+            setLoadingUpcoming(true)
+            const events = await getUpcomingEvents();
+            setUpcomingEvents(events?.data?.events);
+            console.log(events)
+            
+        } catch (error) {
+            console.log(error)                
         }
+        finally{
+            setLoadingUpcoming(false)
+        }
+
+    }
+    useEffect(()=>{
         if(user){
+            fetchNews();
             fetchMyEvents();
+            fetchActivities();
+            fetchEvents();
         }
     }, [user])
     

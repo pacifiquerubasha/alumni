@@ -44,9 +44,11 @@ function Profile(props) {
 
     const handleLogout = async()=>{
         try {
-            let response = await logout();
+            const token = localStorage.getItem("alumineersToken")
+
+            let response = await logout(token);
             if(response){
-                localStorage.removeItem("alumneersToken");
+                localStorage.removeItem("alumineersToken");
                 navigate("/login")
             }
             
@@ -66,7 +68,9 @@ function Profile(props) {
         e.preventDefault();
         try {
             setUpdatingUser(true)
-            const response = await updateUser(formFields, user._id);
+            const token = localStorage.getItem("alumineersToken")
+
+            const response = await updateUser(formFields, user._id, token);
             if(response.data){
                 console.log(response.data)
                 setMessage({
@@ -111,7 +115,9 @@ function Profile(props) {
 
         try {
             setChangingPassword(true);
-            const response = await changePassword(user._id, passwordFields);
+            const token = localStorage.getItem("alumineersToken")
+
+            const response = await changePassword(user._id, passwordFields, token);
             if(response.data){
                 console.log(response.data)
                 setPasswordChangeMessage({
@@ -157,8 +163,9 @@ function Profile(props) {
     const handleProfilePictureChange = async()=>{
         try {
             setChangingProfile(true)
+            const token = localStorage.getItem("alumineersToken")
 
-            const response = await changeProfilePicture(user._id, {image: profilePicture});
+            const response = await changeProfilePicture(user._id, {image: profilePicture}, token);
             if(response.data){
                 window.location.reload();
             }

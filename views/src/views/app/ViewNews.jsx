@@ -19,7 +19,9 @@ function ViewNews(props) {
         const fetchNews = async()=>{
             try {
                 setLoading(true)
-                let response = await getNewsById(id);
+                const token = localStorage.getItem("alumineersToken")
+
+                let response = await getNewsById(id, token);
 
                 if(response?.data?.news){
                     setNews(response.data.news)
@@ -53,7 +55,9 @@ function ViewNews(props) {
     const handleDeleteNews = async()=>{
         try {
             setDeleting(true);
-            const response = await deleteNews(id);
+            const token = localStorage.getItem("alumineersToken")
+
+            const response = await deleteNews(id, token);
             if(response.data.news){
                 setMessage({
                     type: 'success',

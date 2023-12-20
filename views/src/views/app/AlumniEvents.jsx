@@ -26,9 +26,10 @@ function AlumniEvents(props) {
     }
 
     useEffect(()=>{
+        const token = localStorage.getItem("alumineersToken")
         const fetchEvents = async()=>{
             setLoading(true)
-            const events = await getEvents();
+            const events = await getEvents(token);
             setAllEvents(events?.data?.events);
             setEvents(events?.data?.events);
             setLoading(false)

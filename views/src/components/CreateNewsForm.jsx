@@ -24,7 +24,9 @@ function CreateNewsForm({newsFormData, setNewsFormData, isEdit}) {
         try {
 
             setLoading(true);
-            const response = await createNews(newsFormData);
+            const token = localStorage.getItem("alumineersToken")
+
+            const response = await createNews(newsFormData, token);
             if(response.data.news){
                 setMessage({
                     type: 'success',
@@ -51,7 +53,9 @@ function CreateNewsForm({newsFormData, setNewsFormData, isEdit}) {
 
         try {
             setLoading(true);
-            const response = await updateNews(newsFormData, newsFormData._id);
+            const token = localStorage.getItem("alumineersToken")
+
+            const response = await updateNews(newsFormData, newsFormData._id, token);
             if(response.data.news){
                 setMessage({
                     type: 'success',

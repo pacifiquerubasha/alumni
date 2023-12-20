@@ -9,7 +9,6 @@ const http = require("http");
 
 const {initSocket} = require('./utils/socket')
 
-const { authMiddleware } = require('./middlewares/authMiddleware');
 const { userRouter } = require('./routes/user-routes');
 const { eventsRouter } = require('./routes/event-routes');
 const { newsRouter } = require('./routes/news-routes');
@@ -21,7 +20,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(authMiddleware);
 
 
 const allowedOrigins = [process.env.FRONTEND_URL, 'https://cron-job.org']

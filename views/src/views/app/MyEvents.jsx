@@ -45,7 +45,9 @@ function MyEvents(props) {
     const fetchMyEvents = async()=>{
         try {
             setLoadingEvents(true)
-            let response = await getMyEvents(user._id)
+            const token = localStorage.getItem("alumineersToken")
+
+            let response = await getMyEvents(user._id, token)
             if(response?.data?.events){
                 const data = response.data.events.sort((a, b)=>new Date(b.date) - new Date(a.date))
                 setMyEvents(data)
@@ -67,7 +69,9 @@ function MyEvents(props) {
     const fetchMyRSVPs = async()=>{
         try {
             setFetchingRSVPs(true)
-            let response = await getMyRegisteredEvents(user._id);
+            const token = localStorage.getItem("alumineersToken")
+
+            let response = await getMyRegisteredEvents(user._id, token);
             if(response?.data?.events){
                 const data = response.data.events.sort((a, b)=>new Date(b?.eventId?.date) - new Date(a?.eventId?.date))
                 setMyRSVPs(data)

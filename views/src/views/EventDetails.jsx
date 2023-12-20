@@ -58,7 +58,9 @@ function EventDetails(props) {
     const handleDeleteEvent =  async()=>{
         try {
             setDeleting(true);
-            let res = await deleteEvent(id);
+            const token = localStorage.getItem("alumineersToken")
+
+            let res = await deleteEvent(id, token);
             if(res?.data){
                 setMessage({
                     type: 'success',
@@ -82,7 +84,9 @@ function EventDetails(props) {
     const registerEvent = async()=>{
         try {
             setRegistering(true);
-            let res = await handleRegister({eventId: id, userId: user._id });
+            const token = localStorage.getItem("alumineersToken")
+
+            let res = await handleRegister({eventId: id, userId: user._id }, token);
             if(res?.data){
                 setTimeout(() => {
                     window.location.reload();

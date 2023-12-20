@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { images } from '../utils/images';
 import { AppContext } from '../AppContext';
 import { getCurrentUser, API_URL, token } from '../services/apis';
+import { SpinLoader } from './Loaders';
 
 
 function AppWrapper({title, children}) {
@@ -35,7 +36,7 @@ function AppWrapper({title, children}) {
 
         setLoadingUser(true)
         try {
-        const token = localStorage.getItem("alumneersToken");
+        const token = localStorage.getItem("alumineersToken");
 
         const response = await getCurrentUser(token);
         if(response.data.user){
@@ -72,7 +73,6 @@ function AppWrapper({title, children}) {
         }
         
         } catch (error) {
-            console.log(error)
             navigate("/login")
         }
         finally{
@@ -88,6 +88,7 @@ function AppWrapper({title, children}) {
 
 
     return (
+        
         <div className='app__wrapper'>
             <div className='app__header z-total w-full flex justify-between shadow-4 items-center px-5'>
                 <div class="toggleContainer">
@@ -125,6 +126,7 @@ function AppWrapper({title, children}) {
                 </div>
             </div>
         </div>
+
     );
 }
 

@@ -23,10 +23,16 @@ function Alumnis(props) {
     const [activeToShow, setActiveToShow] = useState()
     
     useEffect(()=> {
+
+        document.title = "Alumni | ALUmineers"
+
+
         const fetchUsers = async()=>{
             try {
                 setLoading(true)
-                const response = await getUsers();
+                const token = localStorage.getItem("alumineersToken")
+
+                const response = await getUsers(token);
                 if(response.data){
                     setAlumniData(response.data);
                     
